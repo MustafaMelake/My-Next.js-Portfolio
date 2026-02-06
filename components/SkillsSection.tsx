@@ -47,7 +47,7 @@ export default function SkillsSection() {
   }
 
   return (
-    <section id="skills" className="py-12 bg-slate-50/50">
+    <section id="skills" className="py-22 bg-slate-50/50">
       <div className="container mx-auto px-6">
         <h2 className="text-3xl font-bold mb-4 text-center">Tech Stack</h2>
         <p className="text-center text-slate-500 mb-12 italic text-sm">

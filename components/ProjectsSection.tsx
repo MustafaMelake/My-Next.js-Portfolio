@@ -167,7 +167,7 @@ export default function ProjectsSection() {
               size="lg"
               className="rounded-full px-10 py-7 text-lg shadow-2xl"
             >
-              <a href="/Mustafa_FullStack_CV.pdf" download>
+              <a href="/Mustafa_Melake_CV.pdf" download>
                 <Download size={20} />
                 Download My CV
               </a>

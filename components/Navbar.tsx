@@ -48,10 +48,11 @@ export default function Navbar() {
             Projects
           </Link>
         </div>
-
-        <button className="bg-primary text-primary-foreground px-5 py-2 rounded-full text-sm font-medium hover:opacity-90 transition-opacity">
-          Hire Me
-        </button>
+        <Link href="#contact">
+          <button className="bg-primary text-primary-foreground px-5 py-2 rounded-full text-sm font-medium hover:opacity-90 transition-opacity">
+            Hire Me
+          </button>
+        </Link>
       </div>
     </nav>
   );
