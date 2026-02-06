@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,24 +9,44 @@ import { Mail, MapPin, Send, Copy } from "lucide-react";
 import { FadeIn } from "./FadeIn";
 
 export default function ContactSection() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false); // Added for UX
+
   const copyEmail = () => {
-    navigator.clipboard.writeText("mustafa@example.com");
+    navigator.clipboard.writeText("mustafamelake@gmail.com"); // Updated to your real email
     alert("Email copied to clipboard!");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
-    const response = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(FormData),
-    });
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    if (response.ok) {
-      alert("Message sent to MongoDB!");
+      if (response.ok) {
+        alert("Success! Message saved to MongoDB and sent to your Gmail.");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        alert("Something went wrong. Please check your connection.");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
   return (
     <section id="contact" className="py-24 relative overflow-hidden">
       <div className="container mx-auto px-6">
@@ -43,13 +63,11 @@ export default function ContactSection() {
                   <span className="text-slate-400">PROJECT?</span>
                 </h2>
               </div>
-
               <p className="text-lg text-slate-600 max-w-md leading-relaxed">
                 I’m currently available for freelance work and full-time
                 positions. If you have a project that needs a MERN stack expert,
                 let’s talk.
               </p>
-
               <div className="space-y-6">
                 <div
                   className="flex items-center gap-4 group cursor-pointer"
@@ -71,7 +89,6 @@ export default function ContactSection() {
                     </p>
                   </div>
                 </div>
-
                 <div className="flex items-center gap-4">
                   <div className="p-4 bg-white shadow-lg rounded-2xl">
                     <MapPin size={24} />
@@ -90,15 +107,21 @@ export default function ContactSection() {
           {/* RIGHT SIDE */}
           <FadeIn direction="left" delay={0.2} className={""}>
             <Card className="p-8 md:p-10 bg-white/40 backdrop-blur-xl border-white/20 shadow-2xl rounded-3xl">
-              <form className="space-y-6">
+              {/* FIX: Attached handleSubmit to onSubmit on the FORM */}
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-bold uppercase tracking-wider ml-1">
                       Your Name
                     </label>
                     <Input
+                      required
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
                       placeholder="John Doe"
-                      className="bg-white/50 border-white/20 h-12 focus:ring-2 focus:ring-primary transition-all"
+                      className="bg-white/50 border-white/20 h-12"
                     />
                   </div>
                   <div className="space-y-2">
@@ -106,38 +129,52 @@ export default function ContactSection() {
                       Email Address
                     </label>
                     <Input
+                      required
                       type="email"
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
                       placeholder="john@example.com"
-                      className="bg-white/50 border-white/20 h-12 focus:ring-2 focus:ring-primary transition-all"
+                      className="bg-white/50 border-white/20 h-12"
                     />
                   </div>
                 </div>
-
                 <div className="space-y-2">
                   <label className="text-sm font-bold uppercase tracking-wider ml-1">
                     Subject
                   </label>
                   <Input
+                    required
+                    value={formData.subject}
+                    onChange={(e) =>
+                      setFormData({ ...formData, subject: e.target.value })
+                    }
                     placeholder="Project Inquiry"
-                    className="bg-white/50 border-white/20 h-12 focus:ring-2 focus:ring-primary transition-all"
+                    className="bg-white/50 border-white/20 h-12"
                   />
                 </div>
-
                 <div className="space-y-2">
                   <label className="text-sm font-bold uppercase tracking-wider ml-1">
                     Message
                   </label>
                   <Textarea
+                    required
+                    value={formData.message}
+                    onChange={(e) =>
+                      setFormData({ ...formData, message: e.target.value })
+                    }
                     placeholder="Tell me about your project..."
-                    className="bg-white/50 border-white/20 min-h-[150px] focus:ring-2 focus:ring-primary transition-all"
+                    className="bg-white/50 border-white/20 min-h-[150px]"
                   />
                 </div>
-
+                {/* FIX: Added type="submit" and loading state */}
                 <Button
-                  onSubmit={handleSubmit}
+                  type="submit"
+                  disabled={isSubmitting}
                   className="w-full h-14 text-lg font-bold rounded-xl shadow-xl hover:shadow-primary/20 transition-all gap-2 group"
                 >
-                  Send Message
+                  {isSubmitting ? "Sending..." : "Send Message"}
                   <Send
                     size={18}
                     className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
