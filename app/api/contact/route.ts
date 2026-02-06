@@ -1,5 +1,5 @@
 import { connectToDatabase } from "@/lib/mongodb";
-import Message from "@/lib/models/message";
+import Message from "@/lib/models/Message";
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
 
