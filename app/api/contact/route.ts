@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     await connectToDatabase();
 
     // 1. Save to MongoDB (Your records)
-    const newMessage = await Message.create(body);
+    await Message.create(body);
 
     // 2. Send to your Gmail (Notification)
     await resend.emails.send({
@@ -30,9 +30,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (error) {
-    console.error(error);
+    console.error("Message Error.", error);
     return NextResponse.json(
-      { error: "Failed to process request" },
+      { error: "Internal Server Error" },
       { status: 500 }
     );
   }
