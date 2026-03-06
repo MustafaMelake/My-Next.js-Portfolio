@@ -13,6 +13,22 @@ export default function ProjectsSection() {
   const PROJECTS = [
     {
       id: 1,
+      title: "StoryFlow - Modern Blog System",
+      description:
+        "A Full-stack blogging platform with Next.js 16, featuring secure Social Auth, Prisma ORM, and high-performance Server Components.",
+      image: "/images/storyflow-blog.png",
+      tech: [
+        "Next.js 16",
+        "Prisma 7",
+        "PostgreSQL",
+        "Better Auth",
+        "Tailwind v4",
+      ],
+      liveLink: "https://next16-prisma-blog.vercel.app",
+      codeLink: "https://github.com/MustafaMelake/next16-prisma-blog",
+    },
+    {
+      id: 2,
       title: "E-Commerce Platform",
       description:
         "A Front-end application , Made for a fragrances online page.",
@@ -22,7 +38,7 @@ export default function ProjectsSection() {
       codeLink: "https://github.com/MustafaMelake/Rose-Misk-Store-E-commerce",
     },
     {
-      id: 2,
+      id: 3,
       title: "Job Application Tracker",
       description:
         "A full-stack MERN application with Next.js , Drag and Drop , and an admin dashboard.",
@@ -33,7 +49,7 @@ export default function ProjectsSection() {
       codeLink: "https://github.com/MustafaMelake/job-application-tracker",
     },
     {
-      id: 3,
+      id: 4,
       title: "E-Commerce Platform",
       description: "A full-stack MERN application.",
       image: "/images/e-commerce.png",
@@ -42,7 +58,7 @@ export default function ProjectsSection() {
       codeLink: "https://github.com/MustafaMelake/E-Commerce_MERN",
     },
     {
-      id: 4,
+      id: 5,
       title: "Dashboard",
       description:
         "A full-stack MERN application with Redux, Stripe integration, and an admin dashboard.",
@@ -52,7 +68,7 @@ export default function ProjectsSection() {
       codeLink: "https://github.com/MustafaMelake/Dashboard_Project",
     },
     {
-      id: 5,
+      id: 6,
       title: "Landing Page",
       description:
         "A Front-end landing page made by HTML and CSS to show how am i good at CSS with many different features.",

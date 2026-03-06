@@ -3,10 +3,11 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Sparkles } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
+    <section className="relative min-h-screen flex items-center pt-16 overflow-hidden bg-slate-50">
       <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* LEFT SIDE: TEXT CONTENT */}
         <motion.div
@@ -16,43 +17,65 @@ export default function Hero() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="z-10"
         >
-          <span className="text-sm font-mono tracking-widest text-slate-500 uppercase mb-4 block">
-            Available for Work
-          </span>
+          <motion.span
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="inline-flex items-center gap-2 text-xs font-mono tracking-widest text-primary uppercase mb-4 px-3 py-1 bg-primary/10 rounded-full border border-primary/20"
+          >
+            <Sparkles className="w-3 h-3" /> Available for High-End Projects
+          </motion.span>
+
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
             Mustafa <br />
-            <span className="text-primary italic">MERN Stack</span> Expert
+            <span className="text-primary italic">Next.js 16</span> Architect
           </h1>
-          <p className="text-lg text-muted-foreground max-w-md mb-8 leading-relaxed">
-            Building scalable web applications with Next.js, TypeScript, and a
-            passion for clean, interactive user interfaces.
+
+          <p className="text-lg text-muted-foreground max-w-lg mb-8 leading-relaxed">
+            I build high-performance web applications using **Next.js 16**,
+            **Prisma 7**, **PostgreSQL**, and **MongoDB**. Specializing in
+            scalable full-stack architectures with a focus on data integrity and
+            speed.
           </p>
-          <div className="flex gap-4">
+
+          <div className="flex flex-wrap gap-4">
             <Link href={"#projects"}>
-              <Button size="lg" className="rounded-full px-8">
-                View Projects
+              <Button
+                size="lg"
+                className="rounded-full px-8 text-md shadow-lg hover:shadow-primary/25 transition-all"
+              >
+                Explore My Work
               </Button>
             </Link>
             <Link href={"#contact"}>
               <Button
                 size="lg"
                 variant="outline"
-                className="rounded-full px-8 border-slate-300"
+                className="rounded-full px-8 border-slate-300 text-md hover:bg-slate-100"
               >
-                Contact Me
+                Let&apos;s Talk
               </Button>
             </Link>
           </div>
+
+          {/* Trust Badges - Simple and Professional */}
+          <div className="mt-12 flex items-center gap-6 opacity-60 grayscale">
+            <span className="text-sm font-bold">NEXT.JS 16</span>
+            <span className="text-sm font-bold">TYPESCRIPT</span>
+            <span className="text-sm font-bold">PRISMA 7</span>
+            <span className="text-sm font-bold">POSTGRESQL</span>
+            <span className="text-sm font-bold">MONGODB</span>
+          </div>
         </motion.div>
 
-        {/* RIGHT SIDE: PHOTO SLIDING FROM BOTTOM */}
+        {/* RIGHT SIDE: PHOTO WITH SMOOTH ANIMATION */}
         <div className="relative flex justify-center lg:justify-end items-end h-full">
-          {/* Decorative background element for the photo */}
+          {/* Decorative blur effect */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.5, duration: 1 }}
-            className="absolute bottom-0 w-72 h-72 md:w-96 md:h-96 bg-slate-200/50 rounded-full blur-3xl -z-10"
+            className="absolute bottom-10 w-72 h-72 md:w-[450px] md:h-[450px] bg-primary/20 rounded-full blur-[100px] -z-10"
           />
 
           <motion.div
@@ -60,19 +83,19 @@ export default function Hero() {
             animate={{ y: 0, opacity: 1 }}
             transition={{
               duration: 1,
-              ease: [0.22, 1, 0.36, 1], // Custom cubic-bezier for that "smooth" feel
+              ease: [0.22, 1, 0.36, 1],
               delay: 0.2,
             }}
-            className="relative"
+            className="relative group"
           >
-            {/* Replace /my-photo.png with your actual path */}
+            <div className="absolute inset-0 bg-primary/10 rounded-2xl -rotate-3 group-hover:rotate-0 transition-transform duration-500 -z-10"></div>
             <Image
               src="/images/IMG_0701.jpeg"
-              alt="Mustafa"
-              width={500}
-              height={600}
+              alt="Mustafa - Full Stack Architect"
+              width={450}
+              height={550}
               priority
-              className="object-cover grayscale hover:grayscale-0 transition-all duration-500 rounded-2xl"
+              className="object-cover rounded-2xl shadow-2xl border-2 border-white/50 transition-transform duration-700 group-hover:scale-[1.02]"
             />
           </motion.div>
         </div>
