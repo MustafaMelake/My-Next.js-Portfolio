@@ -67,7 +67,7 @@ export default function Hero() {
           >
             {/* Replace /my-photo.png with your actual path */}
             <Image
-              src="/images/my-pic.jpg"
+              src="/images/IMG_0701.jpeg"
               alt="Mustafa"
               width={500}
               height={600}
