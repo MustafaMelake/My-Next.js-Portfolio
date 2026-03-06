@@ -25,19 +25,16 @@ export default function Hero() {
           >
             <Sparkles className="w-3 h-3" /> Available for High-End Projects
           </motion.span>
-
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
             Mustafa <br />
             <span className="text-primary italic">Next.js 16</span> Architect
           </h1>
-
           <p className="text-lg text-muted-foreground max-w-lg mb-8 leading-relaxed">
             I build high-performance web applications using **Next.js 16**,
             **Prisma 7**, **PostgreSQL**, and **MongoDB**. Specializing in
             scalable full-stack architectures with a focus on data integrity and
             speed.
           </p>
-
           <div className="flex flex-wrap gap-4">
             <Link href={"#projects"}>
               <Button
@@ -57,15 +54,24 @@ export default function Hero() {
               </Button>
             </Link>
           </div>
-
           {/* Trust Badges - Simple and Professional */}
-          <div className="mt-12 flex items-center gap-6 opacity-60 grayscale">
-            <span className="text-sm font-bold">NEXT.JS 16</span>
-            <span className="text-sm font-bold">TYPESCRIPT</span>
-            <span className="text-sm font-bold">PRISMA 7</span>
-            <span className="text-sm font-bold">POSTGRESQL</span>
-            <span className="text-sm font-bold">MONGODB</span>
-          </div>
+          <div className="mt-12 flex flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-8 opacity-60 grayscale font-mono">
+            <span className="text-[10px] md:text-sm font-bold tracking-tighter md:tracking-normal border-b border-transparent hover:border-primary transition-colors cursor-default">
+              NEXT.JS 16
+            </span>
+            <span className="text-[10px] md:text-sm font-bold tracking-tighter md:tracking-normal">
+              TYPESCRIPT
+            </span>
+            <span className="text-[10px] md:text-sm font-bold tracking-tighter md:tracking-normal">
+              PRISMA 7
+            </span>
+            <span className="text-[10px] md:text-sm font-bold tracking-tighter md:tracking-normal">
+              POSTGRESQL
+            </span>
+            <span className="text-[10px] md:text-sm font-bold tracking-tighter md:tracking-normal">
+              MONGODB
+            </span>
+          </div>{" "}
         </motion.div>
 
         {/* RIGHT SIDE: PHOTO WITH SMOOTH ANIMATION */}
