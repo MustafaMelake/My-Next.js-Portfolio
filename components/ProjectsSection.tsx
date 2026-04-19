@@ -13,6 +13,23 @@ export default function ProjectsSection() {
   const PROJECTS = [
     {
       id: 1,
+      title: "Rose Misk | Luxury Fragrance E-commerce",
+      description:
+        "A high-performance Full-stack platform for premium fragrances. Featuring secure session-based auth, dynamic filtering, and optimized media handling. Engineered for 100/100 Lighthouse performance scores.",
+      image: "/images/rose-misk.png",
+      tech: [
+        "Next.js 16",
+        "React 19",
+        "Prisma 7",
+        "Neon DB",
+        "Better Auth",
+        "Tailwind v4",
+      ],
+      liveLink: "https://rose-misk.vercel.app",
+      codeLink: "https://github.com/MustafaMelake/Rose-Misk",
+    },
+    {
+      id: 2,
       title: "StoryFlow - Modern Blog System",
       description:
         "A Full-stack blogging platform with Next.js 16, featuring secure Social Auth, Prisma ORM, and high-performance Server Components.",
@@ -26,16 +43,6 @@ export default function ProjectsSection() {
       ],
       liveLink: "https://next16-prisma-blog.vercel.app",
       codeLink: "https://github.com/MustafaMelake/next16-prisma-blog",
-    },
-    {
-      id: 2,
-      title: "E-Commerce Platform",
-      description:
-        "A Front-end application , Made for a fragrances online page.",
-      image: "/images/rose-misk.png",
-      tech: ["React", "Tailwind"],
-      liveLink: "https://mustafamelake.github.io/Rose-Misk-Store-E-commerce/",
-      codeLink: "https://github.com/MustafaMelake/Rose-Misk-Store-E-commerce",
     },
     {
       id: 3,
