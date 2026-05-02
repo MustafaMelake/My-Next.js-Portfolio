@@ -27,6 +27,7 @@ const INITIAL_SKILLS = [
   { id: "2", name: "React.js", logo: "/images/react.jpg" },
   { id: "3", name: "Tailwind CSS", logo: "/images/tailwind.jpg" },
   { id: "5", name: "Node.js", logo: "/images/node.jpg" },
+  { id: "9", name: "Framer", logo: "/images/framer.jpg" },
 ];
 
 export default function SkillsSection() {
