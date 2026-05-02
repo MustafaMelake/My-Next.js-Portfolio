@@ -46,6 +46,16 @@ export default function ProjectsSection() {
     },
     {
       id: 3,
+      title: "Animated Landing Page",
+      description:
+        "A high-performance, SEO-optimized landing page built with Next.js 16 and Framer Motion, featuring 'production-grade' animations, full type-safety, and a mobile-first responsive architecture.",
+      image: "/images/landing-page.png",
+      tech: ["Next.js 16", "Framer", "TailwindCSS"],
+      liveLink: "https://animated-landing-page-xi-one.vercel.app/",
+      codeLink: "https://github.com/MustafaMelake/Animated-LandingPage",
+    },
+    {
+      id: 4,
       title: "Job Application Tracker",
       description:
         "A full-stack MERN application with Next.js , Drag and Drop , and an admin dashboard.",
@@ -56,7 +66,7 @@ export default function ProjectsSection() {
       codeLink: "https://github.com/MustafaMelake/job-application-tracker",
     },
     {
-      id: 4,
+      id: 5,
       title: "E-Commerce Platform",
       description: "A full-stack MERN application.",
       image: "/images/e-commerce.png",
@@ -65,7 +75,7 @@ export default function ProjectsSection() {
       codeLink: "https://github.com/MustafaMelake/E-Commerce_MERN",
     },
     {
-      id: 5,
+      id: 6,
       title: "Dashboard",
       description:
         "A full-stack MERN application with Redux, Stripe integration, and an admin dashboard.",
@@ -73,17 +83,6 @@ export default function ProjectsSection() {
       tech: ["HTML", "CSS"],
       liveLink: "https://mustafamelake.github.io/Dashboard_Project/",
       codeLink: "https://github.com/MustafaMelake/Dashboard_Project",
-    },
-    {
-      id: 6,
-      title: "Landing Page",
-      description:
-        "A Front-end landing page made by HTML and CSS to show how am i good at CSS with many different features.",
-      image: "/images/landing-page.png",
-      tech: ["HTML", "CSS"],
-      liveLink: "https://mustafamelake.github.io/Professional-Landing-Page.-/",
-      codeLink:
-        "https://github.com/MustafaMelake/Professional-Landing-Page.-/tree/master?tab=readme-ov-file",
     },
   ];
   return (
