@@ -63,19 +63,19 @@ export default function Footer() {
 
             <nav className="flex gap-8 text-sm font-bold uppercase tracking-widest text-slate-500">
               <Link
-                href="#about"
+                href="/#about"
                 className="hover:text-black transition-colors"
               >
                 About
               </Link>
               <Link
-                href="#skills"
+                href="/#skills"
                 className="hover:text-black transition-colors"
               >
                 Skills
               </Link>
               <Link
-                href="#projects"
+                href="/#projects"
                 className="hover:text-black transition-colors"
               >
                 Projects

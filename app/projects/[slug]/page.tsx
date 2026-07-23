@@ -1,0 +1,187 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { FadeIn } from "@/components/FadeIn";
+import { cn } from "@/lib/utils";
+import { PROJECTS, getProject, FRONTEND_STACK } from "@/lib/projects";
+
+type Params = { params: Promise<{ slug: string }> };
+
+export function generateStaticParams() {
+  return PROJECTS.map((project) => ({ slug: project.slug }));
+}
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { slug } = await params;
+  const project = getProject(slug);
+  if (!project) return { title: "Project Not Found" };
+  return {
+    title: `${project.title} | Mustafa Melake`,
+    description: project.tagline,
+  };
+}
+
+function MetaRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-start justify-between gap-4 border-b border-slate-100 py-3">
+      <dt className="text-sm text-slate-400">{label}</dt>
+      <dd className="text-sm font-medium text-slate-800 text-right">{value}</dd>
+    </div>
+  );
+}
+
+export default async function ProjectPage({ params }: Params) {
+  const { slug } = await params;
+  const project = getProject(slug);
+  if (!project) notFound();
+
+  return (
+    <main className="min-h-screen pt-28 pb-24">
+      <div className="container mx-auto px-6">
+        {/* Back */}
+        <Button
+          asChild
+          variant="outline"
+          className="mb-12 gap-2 rounded-full border-slate-200"
+        >
+          <Link href="/#projects">
+            <ArrowLeft size={16} />
+            Back to Projects
+          </Link>
+        </Button>
+
+        {/* Title */}
+        <FadeIn direction="up">
+          <div className="mx-auto mb-14 max-w-4xl text-center">
+            <p className="mb-4 font-mono text-xs uppercase tracking-[0.25em] text-primary">
+              {project.category}
+            </p>
+            <h1 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl">
+              {project.title}
+            </h1>
+            <p className="mx-auto max-w-2xl text-lg text-slate-500 md:text-xl">
+              {project.tagline}
+            </p>
+          </div>
+        </FadeIn>
+
+        {/* Preview gallery */}
+        <FadeIn direction="up" delay={0.1}>
+          <div
+            className={cn(
+              "mb-16 grid gap-4",
+              project.image.length > 1 ? "md:grid-cols-3" : "grid-cols-1"
+            )}
+          >
+            {project.image.map((src, i) => (
+              <div
+                key={src}
+                className="rounded-[2rem] bg-indigo-50 p-3 ring-1 ring-indigo-100 md:p-4"
+              >
+                <div
+                  className={cn(
+                    "relative overflow-hidden rounded-[1.4rem] bg-white",
+                    project.image.length > 1 ? "aspect-[4/3]" : "aspect-[16/10]"
+                  )}
+                >
+                  <Image
+                    src={src}
+                    alt={`${project.title} screenshot ${i + 1}`}
+                    fill
+                    priority={i === 0}
+                    sizes={
+                      project.image.length > 1
+                        ? "(max-width: 768px) 100vw, 33vw"
+                        : "100vw"
+                    }
+                    className="object-cover object-top"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </FadeIn>
+
+        {/* Body */}
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-[300px_1fr] lg:gap-16">
+          {/* Sidebar */}
+          <aside className="h-fit space-y-8 lg:sticky lg:top-28">
+            <dl>
+              <MetaRow label="Category" value={project.category} />
+              <MetaRow label="Role" value={project.role} />
+              <MetaRow label="Type" value={project.type} />
+            </dl>
+
+            <div className="flex flex-col gap-3">
+              <Button asChild className="w-full gap-2 rounded-full">
+                <Link
+                  href={project.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLink size={16} />
+                  Visit Live Site
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="w-full gap-2 rounded-full border-slate-300"
+              >
+                <Link
+                  href={project.codeLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Github size={16} />
+                  View Source
+                </Link>
+              </Button>
+            </div>
+          </aside>
+
+          {/* Content */}
+          <FadeIn direction="up" delay={0.1}>
+            <div className="max-w-2xl">
+              <p className="mb-12 text-lg leading-relaxed text-slate-700">
+                {project.overview}
+              </p>
+
+              {project.sections.map((section) => (
+                <div key={section.heading} className="mb-10">
+                  <h2 className="mb-3 text-2xl font-bold tracking-tight">
+                    {section.heading}
+                  </h2>
+                  <p className="leading-relaxed text-slate-600">
+                    {section.body}
+                  </p>
+                </div>
+              ))}
+
+              {/* Tech stack */}
+              <h2 className="mb-4 text-2xl font-bold tracking-tight">Built With</h2>
+              <div className="flex flex-wrap gap-2">
+                {project.tech.map((t) => (
+                  <span
+                    key={t}
+                    className={cn(
+                      "rounded-full border px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider",
+                      FRONTEND_STACK.has(t)
+                        ? "border-primary/20 bg-primary/10 text-primary shadow-sm shadow-primary/10"
+                        : "border-slate-200 bg-slate-50 text-slate-500"
+                    )}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </FadeIn>
+        </div>
+      </div>
+    </main>
+  );
+}

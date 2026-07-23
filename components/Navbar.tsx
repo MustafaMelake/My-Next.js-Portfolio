@@ -30,26 +30,26 @@ export default function Navbar() {
 
         <div className="hidden md:flex gap-8 text-sm font-medium">
           <Link
-            href="#about"
+            href="/#about"
             className="hover:text-muted-foreground transition-colors"
           >
             About
           </Link>
           <Link
-            href="#skills"
+            href="/#skills"
             className="hover:text-muted-foreground transition-colors"
           >
             Skills
           </Link>
           <Link
-            href="#projects"
+            href="/#projects"
             className="hover:text-muted-foreground transition-colors"
           >
             Projects
           </Link>
         </div>
         <Link
-          href="#contact"
+          href="/#contact"
           className="bg-primary text-primary-foreground px-5 py-2 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
         >
           Hire Me
