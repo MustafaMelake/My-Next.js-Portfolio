@@ -30,13 +30,13 @@ export default function Hero() {
             <span className="text-primary italic">Next.js 16</span> Architect
           </h1>
           <p className="text-lg text-muted-foreground max-w-lg mb-8 leading-relaxed">
-            I build high-performance web applications using{" "}
+            I build high-performance, type-safe web applications with{" "}
             <strong className="font-semibold">Next.js 16</strong>,{" "}
-            <strong className="font-semibold">Prisma 7</strong>,{" "}
-            <strong className="font-semibold">PostgreSQL</strong>, and{" "}
-            <strong className="font-semibold">MongoDB</strong>. Specializing in
-            scalable full-stack architectures with a focus on data integrity and
-            speed.
+            <strong className="font-semibold">React 19</strong>,{" "}
+            <strong className="font-semibold">Prisma 7</strong>, and{" "}
+            <strong className="font-semibold">PostgreSQL</strong>.
+            Server-rendered, server-validated architectures with a focus on
+            security, data integrity, and speed.
           </p>
           <div className="flex flex-wrap gap-4">
             <Button

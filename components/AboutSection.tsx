@@ -23,19 +23,21 @@ export default function AboutSection() {
                 <p className="text-slate-600 leading-relaxed text-lg">
                   I am a{" "}
                   <strong className="font-semibold">Full Stack Engineer</strong>{" "}
-                  specializing in high-performance digital products. While my
-                  roots are in the MERN stack, I have evolved into a specialist
-                  in <strong className="font-semibold">Next.js 16</strong>,{" "}
-                  <strong className="font-semibold">Prisma 7</strong>, and{" "}
-                  <strong className="font-semibold">TypeScript</strong>. I
-                  architect hybrid data solutions using{" "}
-                  <strong className="font-semibold">PostgreSQL</strong> for
-                  complex logic and{" "}
-                  <strong className="font-semibold">MongoDB</strong> for rapid
-                  scalability. By leveraging{" "}
-                  <strong className="font-semibold">Server Actions</strong> and
-                  modern SSR patterns, I deliver lightning-fast, type-safe
-                  experiences that don&apos;t just work—they scale.
+                  specializing in high-performance, production-grade web
+                  applications. With roots in the MERN stack, I now build
+                  server-rendered, server-validated platforms with{" "}
+                  <strong className="font-semibold">Next.js 16</strong>,{" "}
+                  <strong className="font-semibold">React 19</strong>, and{" "}
+                  <strong className="font-semibold">TypeScript</strong>, backed
+                  by <strong className="font-semibold">PostgreSQL</strong> and{" "}
+                  <strong className="font-semibold">Prisma 7</strong> for
+                  type-safe, relational data at scale. By leveraging{" "}
+                  <strong className="font-semibold">
+                    React Server Components
+                  </strong>{" "}
+                  and <strong className="font-semibold">Server Actions</strong>,
+                  I deliver fast, secure, type-safe experiences that don&apos;t
+                  just work—they scale.
                 </p>
               </Card>
             </FadeIn>
@@ -63,21 +65,21 @@ export default function AboutSection() {
                 <Database className="w-8 h-8 text-slate-700" />
                 <div className="flex gap-1">
                   <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-mono">
-                    SQL
+                    POSTGRES
                   </span>
                   <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-mono">
-                    NoSQL
+                    PRISMA
                   </span>
                 </div>
               </div>
-              <h4 className="font-bold mb-2">Hybrid Database Expert</h4>
+              <h4 className="font-bold mb-2">Relational Data Expert</h4>
               <p className="text-sm text-slate-500 leading-relaxed">
-                Expert in architecting scalable data layers using{" "}
-                <strong className="font-semibold">Prisma 7</strong> with{" "}
-                <strong className="font-semibold">PostgreSQL</strong> for complex
-                relations, and{" "}
-                <strong className="font-semibold">MongoDB</strong> for
-                high-velocity, flexible data structures.
+                Expert in architecting scalable, type-safe data layers with{" "}
+                <strong className="font-semibold">Prisma 7</strong> and{" "}
+                <strong className="font-semibold">PostgreSQL</strong> (Neon) —
+                modeling complex relations with migrations, indexing, and
+                financial-grade{" "}
+                <strong className="font-semibold">Decimal</strong> precision.
               </p>
             </Card>
           </FadeIn>
@@ -87,12 +89,18 @@ export default function AboutSection() {
               <Zap className="w-8 h-8 mb-4 text-primary group-hover:scale-110 transition-transform" />
               <h4 className="font-bold mb-2">Modern Architecture</h4>
               <p className="text-sm text-slate-500 leading-relaxed">
-                Expertise in{" "}
-                <strong className="font-semibold">Next.js 16</strong> App Router
-                and <strong className="font-semibold">Server Actions</strong> for
-                seamless Full-Stack development. Fully type-safe with{" "}
-                <strong className="font-semibold">TypeScript</strong> to ensure
-                Zero-Runtime errors.
+                Expertise in the{" "}
+                <strong className="font-semibold">Next.js 16</strong> App Router,{" "}
+                <strong className="font-semibold">
+                  React Server Components
+                </strong>
+                , and{" "}
+                <strong className="font-semibold">Server Actions</strong> —
+                secured end-to-end with{" "}
+                <strong className="font-semibold">Better Auth</strong>,{" "}
+                <strong className="font-semibold">Zod</strong> validation, and
+                full <strong className="font-semibold">TypeScript</strong>{" "}
+                type-safety.
               </p>
             </Card>
           </FadeIn>
@@ -105,10 +113,10 @@ export default function AboutSection() {
                 Obsessed with{" "}
                 <strong className="font-semibold">Core Web Vitals</strong>. I
                 optimize <strong className="font-semibold">Prisma</strong>{" "}
-                queries and use{" "}
-                <strong className="font-semibold">Edge Runtime</strong> to
-                achieve sub-second load times, directly boosting your SEO and
-                user retention.
+                queries, dedupe reads with request-level caching, and lean on
+                streaming SSR and{" "}
+                <strong className="font-semibold">Edge middleware</strong> to hit
+                sub-second loads — directly boosting your SEO and user retention.
               </p>
             </Card>
           </FadeIn>
