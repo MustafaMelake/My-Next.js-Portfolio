@@ -22,14 +22,21 @@ export default function AboutSection() {
                   Architect
                 </h3>
                 <p className="text-slate-600 leading-relaxed text-lg">
-                  I am a **Full Stack Engineer** specializing in
-                  high-performance digital products. While my roots are in the
-                  MERN stack, I have evolved into a specialist in **Next.js
-                  16**, **Prisma 7**, and **TypeScript**. I architect hybrid
-                  data solutions using **PostgreSQL** for complex logic and
-                  **MongoDB** for rapid scalability. By leveraging **Server
-                  Actions** and modern SSR patterns, I deliver lightning-fast,
-                  type-safe experiences that don&apos;t just work—they scale.
+                  I am a{" "}
+                  <strong className="font-semibold">Full Stack Engineer</strong>{" "}
+                  specializing in high-performance digital products. While my
+                  roots are in the MERN stack, I have evolved into a specialist
+                  in <strong className="font-semibold">Next.js 16</strong>,{" "}
+                  <strong className="font-semibold">Prisma 7</strong>, and{" "}
+                  <strong className="font-semibold">TypeScript</strong>. I
+                  architect hybrid data solutions using{" "}
+                  <strong className="font-semibold">PostgreSQL</strong> for
+                  complex logic and{" "}
+                  <strong className="font-semibold">MongoDB</strong> for rapid
+                  scalability. By leveraging{" "}
+                  <strong className="font-semibold">Server Actions</strong> and
+                  modern SSR patterns, I deliver lightning-fast, type-safe
+                  experiences that don&apos;t just work—they scale.
                 </p>
               </Card>
             </FadeIn>
@@ -66,8 +73,11 @@ export default function AboutSection() {
               </div>
               <h4 className="font-bold mb-2">Hybrid Database Expert</h4>
               <p className="text-sm text-slate-500 leading-relaxed">
-                Expert in architecting scalable data layers using **Prisma 7**
-                with **PostgreSQL** for complex relations, and **MongoDB** for
+                Expert in architecting scalable data layers using{" "}
+                <strong className="font-semibold">Prisma 7</strong> with{" "}
+                <strong className="font-semibold">PostgreSQL</strong> for complex
+                relations, and{" "}
+                <strong className="font-semibold">MongoDB</strong> for
                 high-velocity, flexible data structures.
               </p>
             </Card>
@@ -78,9 +88,12 @@ export default function AboutSection() {
               <Zap className="w-8 h-8 mb-4 text-primary group-hover:scale-110 transition-transform" />
               <h4 className="font-bold mb-2">Modern Architecture</h4>
               <p className="text-sm text-slate-500 leading-relaxed">
-                Expertise in **Next.js 16** App Router and **Server Actions**
-                for seamless Full-Stack development. Fully type-safe with
-                **TypeScript** to ensure Zero-Runtime errors.
+                Expertise in{" "}
+                <strong className="font-semibold">Next.js 16</strong> App Router
+                and <strong className="font-semibold">Server Actions</strong> for
+                seamless Full-Stack development. Fully type-safe with{" "}
+                <strong className="font-semibold">TypeScript</strong> to ensure
+                Zero-Runtime errors.
               </p>
             </Card>
           </FadeIn>
@@ -90,9 +103,13 @@ export default function AboutSection() {
               <Cpu className="w-8 h-8 mb-4 text-slate-700 group-hover:rotate-12 transition-transform" />
               <h4 className="font-bold mb-2">High-Velocity Apps</h4>
               <p className="text-sm text-slate-500 leading-relaxed">
-                Obsessed with **Core Web Vitals**. I optimize **Prisma** queries
-                and use **Edge Runtime** to achieve sub-second load times,
-                directly boosting your SEO and user retention.
+                Obsessed with{" "}
+                <strong className="font-semibold">Core Web Vitals</strong>. I
+                optimize <strong className="font-semibold">Prisma</strong>{" "}
+                queries and use{" "}
+                <strong className="font-semibold">Edge Runtime</strong> to
+                achieve sub-second load times, directly boosting your SEO and
+                user retention.
               </p>
             </Card>
           </FadeIn>

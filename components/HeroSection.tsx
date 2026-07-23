@@ -30,29 +30,30 @@ export default function Hero() {
             <span className="text-primary italic">Next.js 16</span> Architect
           </h1>
           <p className="text-lg text-muted-foreground max-w-lg mb-8 leading-relaxed">
-            I build high-performance web applications using **Next.js 16**,
-            **Prisma 7**, **PostgreSQL**, and **MongoDB**. Specializing in
+            I build high-performance web applications using{" "}
+            <strong className="font-semibold">Next.js 16</strong>,{" "}
+            <strong className="font-semibold">Prisma 7</strong>,{" "}
+            <strong className="font-semibold">PostgreSQL</strong>, and{" "}
+            <strong className="font-semibold">MongoDB</strong>. Specializing in
             scalable full-stack architectures with a focus on data integrity and
             speed.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Link href={"#projects"}>
-              <Button
-                size="lg"
-                className="rounded-full px-8 text-md shadow-lg hover:shadow-primary/25 transition-all"
-              >
-                Explore My Work
-              </Button>
-            </Link>
-            <Link href={"#contact"}>
-              <Button
-                size="lg"
-                variant="outline"
-                className="rounded-full px-8 border-slate-300 text-md hover:bg-slate-100"
-              >
-                Let&apos;s Talk
-              </Button>
-            </Link>
+            <Button
+              asChild
+              size="lg"
+              className="rounded-full px-8 text-md shadow-lg hover:shadow-primary/25 transition-all"
+            >
+              <Link href={"#projects"}>Explore My Work</Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="rounded-full px-8 border-slate-300 text-md hover:bg-slate-100"
+            >
+              <Link href={"#contact"}>Let&apos;s Talk</Link>
+            </Button>
           </div>
           {/* Trust Badges - Simple and Professional */}
           <div className="mt-12 flex flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-8 opacity-60 grayscale font-mono">

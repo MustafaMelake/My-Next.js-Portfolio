@@ -72,9 +72,11 @@ export default function ContactSection() {
               </div>
 
               <p className="text-xl text-slate-600 max-w-md leading-relaxed">
-                Whether you need a **Next.js Architect** for a new MVP or a
-                **Prisma/MongoDB** expert to scale your backend, I&apos;m here
-                to help.
+                Whether you need a{" "}
+                <strong className="font-semibold">Next.js Architect</strong> for
+                a new MVP or a{" "}
+                <strong className="font-semibold">Prisma/MongoDB</strong> expert
+                to scale your backend, I&apos;m here to help.
               </p>
 
               <div className="space-y-6 pt-4">

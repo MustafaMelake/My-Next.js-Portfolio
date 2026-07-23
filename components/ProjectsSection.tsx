@@ -13,6 +13,15 @@ export default function ProjectsSection() {
   const PROJECTS = [
     {
       id: 1,
+      title: "Ali Baba ",
+      description: "A full-stack MERN application.",
+      image: "/images/ali-baba-web.png",
+      tech: ["MongoDB", "Express", "React", "Node.js"],
+      liveLink: "https://ali-baba-web-theta.vercel.app",
+      codeLink: "https://github.com/MustafaMelake/ali-baba-web",
+    },
+    {
+      id: 2,
       title: "Rose Misk | Luxury Fragrance E-commerce",
       description:
         "A high-performance Full-stack platform for premium fragrances. Featuring secure session-based auth, dynamic filtering, and optimized media handling. Engineered for 100/100 Lighthouse performance scores.",
@@ -25,11 +34,11 @@ export default function ProjectsSection() {
         "Better Auth",
         "Tailwind v4",
       ],
-      liveLink: "https://rose-misk.vercel.app",
-      codeLink: "https://github.com/MustafaMelake/Rose-Misk",
+      liveLink: "https://rosemisk.store",
+      codeLink: "https://github.com/MustafaMelake/Rose-Misk-Store-E-commerce",
     },
     {
-      id: 2,
+      id: 3,
       title: "StoryFlow - Modern Blog System",
       description:
         "A Full-stack blogging platform with Next.js 16, featuring secure Social Auth, Prisma ORM, and high-performance Server Components.",
@@ -45,7 +54,7 @@ export default function ProjectsSection() {
       codeLink: "https://github.com/MustafaMelake/next16-prisma-blog",
     },
     {
-      id: 3,
+      id: 4,
       title: "Animated Landing Page",
       description:
         "A high-performance, SEO-optimized landing page built with Next.js 16 and Framer Motion, featuring 'production-grade' animations, full type-safety, and a mobile-first responsive architecture.",
@@ -53,36 +62,6 @@ export default function ProjectsSection() {
       tech: ["Next.js 16", "Framer", "TailwindCSS"],
       liveLink: "https://animated-landing-page-xi-one.vercel.app/",
       codeLink: "https://github.com/MustafaMelake/Animated-LandingPage",
-    },
-    {
-      id: 4,
-      title: "Job Application Tracker",
-      description:
-        "A full-stack MERN application with Next.js , Drag and Drop , and an admin dashboard.",
-      image: "/images/job-application.png",
-      tech: ["MongoDB", "Express", "Next.js", "Node.js", "TypeScript"],
-      liveLink:
-        "https://job-application-tracker-jiaeap3sy-mustafamelake-9923s-projects.vercel.app/",
-      codeLink: "https://github.com/MustafaMelake/job-application-tracker",
-    },
-    {
-      id: 5,
-      title: "E-Commerce Platform",
-      description: "A full-stack MERN application.",
-      image: "/images/e-commerce.png",
-      tech: ["MongoDB", "Express", "React", "Node.js"],
-      liveLink: "https://mustafamelake.github.io/E-Commerce_MERN/",
-      codeLink: "https://github.com/MustafaMelake/E-Commerce_MERN",
-    },
-    {
-      id: 6,
-      title: "Dashboard",
-      description:
-        "A full-stack MERN application with Redux, Stripe integration, and an admin dashboard.",
-      image: "/images/dashboard.png",
-      tech: ["HTML", "CSS"],
-      liveLink: "https://mustafamelake.github.io/Dashboard_Project/",
-      codeLink: "https://github.com/MustafaMelake/Dashboard_Project",
     },
   ];
   return (
@@ -139,39 +118,41 @@ export default function ProjectsSection() {
                       {/* Action Buttons */}
                       <div className="flex items-center gap-2">
                         {/* Live Demo Button */}
-                        <Link
-                          href={project.liveLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <Button
+                          asChild
+                          size="sm"
+                          className="gap-2 h-9 w-9 p-0 md:w-auto md:px-3"
                         >
-                          <Button
-                            size="sm"
-                            className="gap-2 h-9 w-9 p-0 md:w-auto md:px-3"
+                          <Link
+                            href={project.liveLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
                           >
                             <ExternalLink size={14} />
                             <span className="hidden md:inline text-xs">
                               Live
                             </span>
-                          </Button>
-                        </Link>
+                          </Link>
+                        </Button>
 
                         {/* GitHub Code Button */}
-                        <Link
-                          href={project.codeLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <Button
+                          asChild
+                          size="sm"
+                          variant="outline"
+                          className="gap-2 h-9 w-9 p-0 md:w-auto md:px-3 border-slate-200"
                         >
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="gap-2 h-9 w-9 p-0 md:w-auto md:px-3 border-slate-200"
+                          <Link
+                            href={project.codeLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
                           >
                             <Github size={14} />
                             <span className="hidden md:inline text-xs">
                               Code
                             </span>
-                          </Button>
-                        </Link>
+                          </Link>
+                        </Button>
                       </div>
                     </div>
                   </div>

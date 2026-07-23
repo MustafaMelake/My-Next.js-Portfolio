@@ -109,7 +109,9 @@ function SocialLink({ href, icon }: { href: string; icon: React.ReactNode }) {
       target="_blank"
       className="p-3 bg-black text-white rounded-full hover:scale-110 active:scale-95 transition-all shadow-xl hover:shadow-primary/20"
     >
-      {React.cloneElement(icon as React.ReactElement, { size: 20 })}
+      {React.cloneElement(icon as React.ReactElement<{ size?: number }>, {
+        size: 20,
+      })}
     </Link>
   );
 }
