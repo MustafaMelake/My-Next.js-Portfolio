@@ -15,7 +15,7 @@ import {
   sortableKeyboardCoordinates,
   rectSortingStrategy,
 } from "@dnd-kit/sortable";
-import { SortableSkill } from "@/lib/hooks/useSortable";
+import { SortableSkill } from "@/components/SortableSkill";
 import { GripVertical } from "lucide-react";
 
 const INITIAL_SKILLS = [

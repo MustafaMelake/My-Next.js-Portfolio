@@ -1,7 +1,6 @@
 "use client";
-import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
-import { Code2, Terminal, Cpu, Globe, Database, Zap } from "lucide-react";
+import { Terminal, Cpu, Database, Zap } from "lucide-react";
 import { FadeIn } from "./FadeIn";
 
 export default function AboutSection() {
@@ -43,7 +42,7 @@ export default function AboutSection() {
           </div>
 
           {/* Quick Stats */}
-          <FadeIn direction="left" delay={0.2} className={""}>
+          <FadeIn direction="left" delay={0.2}>
             <Card className="p-8 bg-black text-white shadow-2xl flex flex-col items-center justify-center text-center h-full">
               <div className="text-4xl font-bold text-white mb-2">2+</div>
               <p className="text-slate-400  text-sm uppercase tracking-widest font-mono">
@@ -58,7 +57,7 @@ export default function AboutSection() {
           </FadeIn>
 
           {/* Detail Boxes - Enhanced with Prisma and Performance focus */}
-          <FadeIn direction="up" delay={0.1} className={""}>
+          <FadeIn direction="up" delay={0.1}>
             <Card className="p-6 bg-white/30 backdrop-blur-sm border-white/20 hover:bg-white/50 transition-colors h-full border-l-4 border-l-primary/50">
               <div className="flex justify-between items-start mb-4">
                 <Database className="w-8 h-8 text-slate-700" />
@@ -83,7 +82,7 @@ export default function AboutSection() {
             </Card>
           </FadeIn>
 
-          <FadeIn direction="up" delay={0.2} className={""}>
+          <FadeIn direction="up" delay={0.2}>
             <Card className="p-6 bg-white/30 backdrop-blur-sm border-white/20 hover:bg-white/50 transition-all h-full group">
               <Zap className="w-8 h-8 mb-4 text-primary group-hover:scale-110 transition-transform" />
               <h4 className="font-bold mb-2">Modern Architecture</h4>
@@ -98,7 +97,7 @@ export default function AboutSection() {
             </Card>
           </FadeIn>
 
-          <FadeIn direction="up" delay={0.3} className={""}>
+          <FadeIn direction="up" delay={0.3}>
             <Card className="p-6 bg-white/30 backdrop-blur-sm border-white/20 hover:bg-white/50 transition-all h-full group">
               <Cpu className="w-8 h-8 mb-4 text-slate-700 group-hover:rotate-12 transition-transform" />
               <h4 className="font-bold mb-2">High-Velocity Apps</h4>

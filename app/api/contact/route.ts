@@ -2,16 +2,9 @@ import { connectToDatabase } from "@/lib/mongodb";
 import Message from "@/lib/models/Message";
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
-import { z } from "zod";
+import { contactSchema } from "@/lib/validation/contact";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-
-const contactSchema = z.object({
-  name: z.string().trim().min(1, "Name is required").max(100),
-  email: z.string().trim().email("Invalid email address").max(200),
-  subject: z.string().trim().min(1, "Subject is required").max(200),
-  message: z.string().trim().min(1, "Message is required").max(5000),
-});
 
 // Basic in-memory rate limiting (per instance). For multi-instance or
 // serverless production deployments, replace this with a shared store such

@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import {
   Github,
   Linkedin,
-  Twitter,
   Mail,
   ArrowUpRight,
   Instagram,

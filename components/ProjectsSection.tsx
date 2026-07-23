@@ -73,12 +73,7 @@ export default function ProjectsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-16">
           {PROJECTS.map((project, index) => (
-            <FadeIn
-              key={project.id}
-              direction="up"
-              delay={index * 0.1}
-              className={""}
-            >
+            <FadeIn key={project.id} direction="up" delay={index * 0.1}>
               <motion.div
                 whileHover={{ y: -10 }}
                 transition={{ duration: 0.3 }}
@@ -164,7 +159,7 @@ export default function ProjectsSection() {
 
         {/* CV Download Button */}
         <div className="flex justify-center mt-20">
-          <FadeIn direction="up" className={""}>
+          <FadeIn direction="up">
             <Button
               asChild
               size="lg"

@@ -7,9 +7,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Mail, MapPin, Send, Copy, Database, CheckCircle2 } from "lucide-react";
 import { FadeIn } from "./FadeIn";
+import type { ContactPayload } from "@/lib/validation/contact";
 
 export default function ContactSection() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ContactPayload>({
     name: "",
     email: "",
     subject: "",
@@ -58,7 +59,7 @@ export default function ContactSection() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* LEFT SIDE: INSPIRATION */}
-          <FadeIn direction="right" className={""}>
+          <FadeIn direction="right">
             <div className="space-y-8">
               <div>
                 <h3 className="text-primary font-mono font-bold tracking-widest uppercase mb-2 flex items-center gap-2">
@@ -122,7 +123,7 @@ export default function ContactSection() {
           </FadeIn>
 
           {/* RIGHT SIDE: THE FORM */}
-          <FadeIn direction="left" delay={0.2} className={""}>
+          <FadeIn direction="left" delay={0.2}>
             <Card className="p-8 md:p-10 bg-white shadow-2xl rounded-[2rem] border-none relative overflow-hidden">
               {/* Success Overlay */}
               {submitted && (
