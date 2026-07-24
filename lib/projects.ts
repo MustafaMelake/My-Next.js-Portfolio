@@ -84,7 +84,11 @@ export const PROJECTS: Project[] = [
     type: "Luxury Fragrance Storefront",
     tagline:
       "A security-hardened luxury fragrance storefront with server-authoritative pricing and a Vitest-tested commerce core.",
-    image: ["/images/rose-misk.png"],
+    image: [
+      "/images/rose-misk.png",
+      "/images/rosemisk1.png",
+      "/images/rosemisk2.png",
+    ],
     overview:
       "Rose Misk is a full-stack storefront and admin dashboard for premium fragrances, built on the Next.js 16 App Router. Its defining trait is a layered security architecture where authentication and validation “live next to the data.”",
     sections: [
