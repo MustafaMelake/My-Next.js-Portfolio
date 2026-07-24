@@ -62,10 +62,10 @@ export default function ContactSection() {
           <FadeIn direction="right">
             <div className="space-y-8">
               <div>
-                <h3 className="text-primary font-mono font-bold tracking-widest uppercase mb-2 flex items-center gap-2">
+                <p className="text-primary font-mono font-bold tracking-widest uppercase mb-2 flex items-center gap-2">
                   <span className="w-8 h-[2px] bg-primary inline-block"></span>
                   Get In Touch
-                </h3>
+                </p>
                 <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-4">
                   READY TO <br />
                   <span className="text-slate-300">SCALE?</span>
@@ -81,38 +81,40 @@ export default function ContactSection() {
               </p>
 
               <div className="space-y-6 pt-4">
-                <div
-                  className="flex items-center gap-5 group cursor-pointer"
+                <button
+                  type="button"
                   onClick={copyEmail}
+                  aria-label="Copy email address to clipboard"
+                  className="flex w-full items-center gap-5 group cursor-pointer text-left rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 >
                   <div className="p-4 bg-white shadow-xl rounded-2xl group-hover:bg-primary group-hover:text-white transition-all duration-300 group-hover:-translate-y-1">
                     <Mail size={24} />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">
                       Email Me
                     </p>
                     <p className="text-xl font-bold flex items-center gap-2 group-hover:text-primary transition-colors">
                       mustafamelake@gmail.com
                       <Copy
                         size={16}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-400"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-500"
                       />
                     </p>
                   </div>
-                </div>
+                </button>
 
                 <div className="flex items-center gap-5">
                   <div className="p-4 bg-white shadow-xl rounded-2xl">
                     <MapPin size={24} />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">
                       Location
                     </p>
                     <p className="text-xl font-bold">
                       Cairo, Egypt{" "}
-                      <span className="text-slate-400 font-medium">
+                      <span className="text-slate-500 font-medium">
                         | Remote Worldwide
                       </span>
                     </p>
@@ -128,6 +130,8 @@ export default function ContactSection() {
               {/* Success Overlay */}
               {submitted && (
                 <motion.div
+                  role="status"
+                  aria-live="polite"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="absolute inset-0 bg-white/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center text-center p-6"

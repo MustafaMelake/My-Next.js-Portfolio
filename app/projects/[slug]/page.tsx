@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 function MetaRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-start justify-between gap-4 border-b border-slate-100 py-3">
-      <dt className="text-sm text-slate-400">{label}</dt>
+      <dt className="text-sm text-slate-500">{label}</dt>
       <dd className="text-sm font-medium text-slate-800 text-right">{value}</dd>
     </div>
   );

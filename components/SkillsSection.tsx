@@ -75,7 +75,7 @@ export default function SkillsSection() {
               {skills.map((skill) => (
                 <div key={skill.id} className="relative group">
                   <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white shadow-sm border rounded-full p-1 z-20">
-                    <GripVertical className="w-3 h-3 text-slate-400" />
+                    <GripVertical className="w-3 h-3 text-slate-500" />
                   </div>
                   <SortableSkill {...skill} />
                 </div>
@@ -85,7 +85,7 @@ export default function SkillsSection() {
         </DndContext>
 
         <div className="mt-16 text-center">
-          <p className="text-xs font-mono text-slate-400 uppercase tracking-widest">
+          <p className="text-xs font-mono text-slate-500 uppercase tracking-widest">
             Data Integrity by Prisma 7 • Type-Safety by TypeScript
           </p>
         </div>
