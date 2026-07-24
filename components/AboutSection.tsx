@@ -1,126 +1,244 @@
 "use client";
-import { Card } from "@/components/ui/card";
-import { Terminal, Cpu, Database, Zap } from "lucide-react";
+import { useEffect, useRef } from "react";
+import {
+  motion,
+  useInView,
+  useReducedMotion,
+  animate,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
+import Link from "next/link";
+import { ShieldCheck, Gauge, Coins, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { FadeIn } from "./FadeIn";
 
-export default function AboutSection() {
-  return (
-    <section id="about" className="py-24 relative overflow-hidden">
-      <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold mb-12 text-center">
-          About <span className="text-slate-400 font-mono">/&gt;</span>
-        </h2>
+const GOLD = "#c9a96a";
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Main Bio - Updated to highlight Modern Full-Stack */}
-          <div className="md:col-span-2">
-            <FadeIn direction="right" delay={0.2} className="h-full">
-              <Card className="p-8 bg-white/50 backdrop-blur-md border-white/20 shadow-xl flex flex-col justify-center h-full group">
-                <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2 group-hover:text-primary transition-colors">
-                  <Terminal className="w-5 h-5 text-primary" /> The Modern
-                  Architect
-                </h3>
-                <p className="text-slate-600 leading-relaxed text-lg">
-                  I am a{" "}
-                  <strong className="font-semibold">Full Stack Engineer</strong>{" "}
-                  specializing in high-performance, production-grade web
-                  applications. With roots in the MERN stack, I now build
-                  server-rendered, server-validated platforms with{" "}
-                  <strong className="font-semibold">Next.js 16</strong>,{" "}
-                  <strong className="font-semibold">React 19</strong>, and{" "}
-                  <strong className="font-semibold">TypeScript</strong>, backed
-                  by <strong className="font-semibold">PostgreSQL</strong> and{" "}
-                  <strong className="font-semibold">Prisma 7</strong> for
-                  type-safe, relational data at scale. By leveraging{" "}
-                  <strong className="font-semibold">
-                    React Server Components
-                  </strong>{" "}
-                  and <strong className="font-semibold">Server Actions</strong>,
-                  I deliver fast, secure, type-safe experiences that don&apos;t
-                  just work—they scale.
-                </p>
-              </Card>
-            </FadeIn>
+const PILLARS = [
+  {
+    icon: Coins,
+    title: "Revenue you can trust",
+    body: "Server-authoritative pricing, financial-grade Decimal money, and race-safe stock control mean every transaction is correct and impossible to tamper with — no leaks, no rounding drift, no disputes.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Security by architecture",
+    body: "Layered authentication guards, role-based access resolved live from the database, and Zod-validated server actions protect your platform and your customers by design — never as an afterthought.",
+  },
+  {
+    icon: Gauge,
+    title: "Speed that converts",
+    body: "React Server Components, streaming, request-level caching, and edge middleware deliver sub-second loads — directly lifting your SEO, your conversions, and the impression your brand makes.",
+  },
+];
+
+const STATS = [
+  { value: 4, label: "Production platforms", format: (n: number) => String(Math.round(n)).padStart(2, "0") },
+  { value: 60, label: "Automated tests passing", format: (n: number) => `${Math.round(n)}/60` },
+  { value: 100, label: "Type-safe, strictly", format: (n: number) => `${Math.round(n)}%` },
+];
+
+function Stat({
+  value,
+  label,
+  format,
+}: {
+  value: number;
+  label: string;
+  format: (n: number) => string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const reduce = useReducedMotion();
+  const count = useMotionValue(0);
+  const text = useTransform(count, (v) => format(v));
+
+  useEffect(() => {
+    if (!inView) return;
+    if (reduce) {
+      count.set(value);
+      return;
+    }
+    const controls = animate(count, value, {
+      duration: 1.6,
+      ease: [0.22, 1, 0.36, 1],
+    });
+    return () => controls.stop();
+  }, [inView, value, reduce, count]);
+
+  return (
+    <div ref={ref} aria-label={`${format(value)} — ${label}`}>
+      <motion.div
+        aria-hidden
+        className="font-semibold text-3xl md:text-4xl tracking-tight text-white tabular-nums"
+      >
+        {text}
+      </motion.div>
+      <div className="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-500">
+        {label}
+      </div>
+    </div>
+  );
+}
+
+export default function AboutSection() {
+  const reduce = useReducedMotion();
+
+  return (
+    <section id="about" className="relative overflow-hidden py-28 md:py-36">
+      {/* Ambient warmth behind the panel */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[80%] max-w-4xl -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.06] blur-[120px]"
+        style={{ backgroundColor: GOLD }}
+      />
+
+      <div className="container relative mx-auto px-6">
+        {/* Header */}
+        <FadeIn direction="up">
+          <div className="mb-14 max-w-3xl">
+            <p
+              className="mb-4 font-mono text-xs uppercase tracking-[0.3em]"
+              style={{ color: GOLD }}
+            >
+              About
+            </p>
+            <h2 className="text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl">
+              Software businesses can&apos;t
+              <br />
+              afford to get wrong.
+            </h2>
+          </div>
+        </FadeIn>
+
+        {/* Manifesto panel */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="relative overflow-hidden rounded-[2.5rem] bg-[#0b0b0d] p-8 shadow-2xl ring-1 ring-white/5 md:p-14 lg:p-16"
+        >
+          {/* Corner hairlines */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute right-0 top-0 h-40 w-40 opacity-40"
+            style={{
+              background: `radial-gradient(circle at top right, ${GOLD}22, transparent 70%)`,
+            }}
+          />
+
+          <div className="mb-8 flex items-center justify-between gap-4">
+            <span
+              className="font-mono text-[11px] uppercase tracking-[0.3em]"
+              style={{ color: GOLD }}
+            >
+              The Engineer
+            </span>
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-500">
+              Cairo · Remote Worldwide
+            </span>
           </div>
 
-          {/* Quick Stats */}
-          <FadeIn direction="left" delay={0.2}>
-            <Card className="p-8 bg-black text-white shadow-2xl flex flex-col items-center justify-center text-center h-full">
-              <div className="text-4xl font-bold text-white mb-2">2+</div>
-              <p className="text-slate-400  text-sm uppercase tracking-widest font-mono">
-                Years of Coding
-              </p>
-              <hr className="w-full my-6 border-slate-700" />
-              <div className="text-4xl font-bold text-white mb-2">10+</div>
-              <p className="text-slate-400 text-sm uppercase tracking-widest font-mono">
-                Production-Ready Apps
-              </p>
-            </Card>
-          </FadeIn>
+          <p className="max-w-3xl text-2xl font-medium leading-snug text-neutral-100 md:text-4xl md:leading-[1.15]">
+            I ship production-grade platforms end to end — secure,
+            server-validated, and fast enough to feel{" "}
+            <span className="italic" style={{ color: GOLD }}>
+              effortless
+            </span>
+            .
+          </p>
 
-          {/* Detail Boxes - Enhanced with Prisma and Performance focus */}
-          <FadeIn direction="up" delay={0.1}>
-            <Card className="p-6 bg-white/30 backdrop-blur-sm border-white/20 hover:bg-white/50 transition-colors h-full border-l-4 border-l-primary/50">
-              <div className="flex justify-between items-start mb-4">
-                <Database className="w-8 h-8 text-slate-700" />
-                <div className="flex gap-1">
-                  <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-mono">
-                    POSTGRES
-                  </span>
-                  <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-mono">
-                    PRISMA
-                  </span>
-                </div>
+          <p className="mt-8 max-w-2xl text-base leading-relaxed text-neutral-400 md:text-lg">
+            I&apos;m Mustafa — a full-stack engineer who builds the systems
+            serious businesses run on. Not prototypes, not templates: real
+            platforms where the money is always right, the data is always
+            protected, and pages load before your customer can blink. Every line
+            is written to survive production, scale cleanly, and make your
+            business look as considered as it is.
+          </p>
+
+          {/* Self-drawing gold divider */}
+          <motion.div
+            aria-hidden
+            initial={{ scaleX: reduce ? 1 : 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            className="my-10 h-px w-full origin-left"
+            style={{
+              background: `linear-gradient(to right, ${GOLD}, ${GOLD}55, transparent)`,
+            }}
+          />
+
+          {/* Proof metrics */}
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 sm:divide-x sm:divide-white/10">
+            {STATS.map((s, i) => (
+              <div key={s.label} className={i === 0 ? "" : "sm:pl-8"}>
+                <Stat value={s.value} label={s.label} format={s.format} />
               </div>
-              <h4 className="font-bold mb-2">Relational Data Expert</h4>
-              <p className="text-sm text-slate-500 leading-relaxed">
-                Expert in architecting scalable, type-safe data layers with{" "}
-                <strong className="font-semibold">Prisma 7</strong> and{" "}
-                <strong className="font-semibold">PostgreSQL</strong> (Neon) —
-                modeling complex relations with migrations, indexing, and
-                financial-grade{" "}
-                <strong className="font-semibold">Decimal</strong> precision.
-              </p>
-            </Card>
-          </FadeIn>
+            ))}
+          </div>
+        </motion.div>
 
-          <FadeIn direction="up" delay={0.2}>
-            <Card className="p-6 bg-white/30 backdrop-blur-sm border-white/20 hover:bg-white/50 transition-all h-full group">
-              <Zap className="w-8 h-8 mb-4 text-primary group-hover:scale-110 transition-transform" />
-              <h4 className="font-bold mb-2">Modern Architecture</h4>
-              <p className="text-sm text-slate-500 leading-relaxed">
-                Expertise in the{" "}
-                <strong className="font-semibold">Next.js 16</strong> App Router,{" "}
-                <strong className="font-semibold">
-                  React Server Components
-                </strong>
-                , and{" "}
-                <strong className="font-semibold">Server Actions</strong> —
-                secured end-to-end with{" "}
-                <strong className="font-semibold">Better Auth</strong>,{" "}
-                <strong className="font-semibold">Zod</strong> validation, and
-                full <strong className="font-semibold">TypeScript</strong>{" "}
-                type-safety.
-              </p>
-            </Card>
-          </FadeIn>
-
-          <FadeIn direction="up" delay={0.3}>
-            <Card className="p-6 bg-white/30 backdrop-blur-sm border-white/20 hover:bg-white/50 transition-all h-full group">
-              <Cpu className="w-8 h-8 mb-4 text-slate-700 group-hover:rotate-12 transition-transform" />
-              <h4 className="font-bold mb-2">High-Velocity Apps</h4>
-              <p className="text-sm text-slate-500 leading-relaxed">
-                Obsessed with{" "}
-                <strong className="font-semibold">Core Web Vitals</strong>. I
-                optimize <strong className="font-semibold">Prisma</strong>{" "}
-                queries, dedupe reads with request-level caching, and lean on
-                streaming SSR and{" "}
-                <strong className="font-semibold">Edge middleware</strong> to hit
-                sub-second loads — directly boosting your SEO and user retention.
-              </p>
-            </Card>
-          </FadeIn>
+        {/* Capability pillars */}
+        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {PILLARS.map((pillar, index) => {
+            const Icon = pillar.icon;
+            return (
+              <FadeIn key={pillar.title} direction="up" delay={index * 0.1}>
+                <motion.div
+                  whileHover={reduce ? undefined : { y: -6 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 28 }}
+                  className="group relative h-full overflow-hidden rounded-2xl border border-slate-200/70 bg-white/60 p-8 shadow-sm backdrop-blur-sm transition-shadow duration-300 hover:shadow-xl"
+                >
+                  <span
+                    aria-hidden
+                    className="absolute inset-x-8 top-0 h-px opacity-60"
+                    style={{
+                      background: `linear-gradient(to right, transparent, ${GOLD}, transparent)`,
+                    }}
+                  />
+                  <Icon
+                    className="mb-5 h-7 w-7"
+                    strokeWidth={1.5}
+                    style={{ color: GOLD }}
+                  />
+                  <h3 className="mb-3 text-lg font-semibold tracking-tight">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-slate-500">
+                    {pillar.body}
+                  </p>
+                </motion.div>
+              </FadeIn>
+            );
+          })}
         </div>
+
+        {/* CTA */}
+        <FadeIn direction="up" delay={0.1}>
+          <div className="mt-16 flex flex-col items-start justify-between gap-6 border-t border-slate-200 pt-10 md:flex-row md:items-center">
+            <p className="max-w-md text-lg text-slate-600">
+              I take on a handful of projects at a time, so the work stays
+              exceptional.
+            </p>
+            <Button
+              asChild
+              size="lg"
+              className="group gap-2 rounded-full bg-black px-8 text-base text-white hover:bg-black/90"
+            >
+              <Link href="#contact">
+                Start a conversation
+                <ArrowRight
+                  size={18}
+                  className="transition-transform group-hover:translate-x-1"
+                />
+              </Link>
+            </Button>
+          </div>
+        </FadeIn>
       </div>
     </section>
   );
