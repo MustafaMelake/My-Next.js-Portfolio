@@ -79,7 +79,7 @@ export default async function ProjectPage({ params }: Params) {
             {project.image.map((src, i) => (
               <div
                 key={src}
-                className="rounded-[2rem] bg-indigo-50 p-3 ring-1 ring-indigo-100 md:p-4"
+                className="rounded-[2rem] p-3 ring-1 ring-indigo-100 md:p-4"
               >
                 <div
                   className={cn(
@@ -162,7 +162,9 @@ export default async function ProjectPage({ params }: Params) {
               ))}
 
               {/* Tech stack */}
-              <h2 className="mb-4 text-2xl font-bold tracking-tight">Built With</h2>
+              <h2 className="mb-4 text-2xl font-bold tracking-tight">
+                Built With
+              </h2>
               <div className="flex flex-wrap gap-2">
                 {project.tech.map((t) => (
                   <span

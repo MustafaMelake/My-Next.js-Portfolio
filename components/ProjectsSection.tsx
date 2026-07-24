@@ -31,7 +31,7 @@ export default function ProjectsSection() {
                 className="group block rounded-[2rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4"
               >
                 {/* Framed preview */}
-                <div className="rounded-[2rem] bg-indigo-50 p-3 md:p-4 ring-1 ring-indigo-100/80 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-2xl group-hover:shadow-indigo-200/50">
+                <div className="rounded-[2rem] p-3 md:p-4 ring-1 ring-indigo-100/80 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-2xl group-hover:shadow-indigo-200/50">
                   <div className="relative aspect-[4/3] overflow-hidden rounded-[1.4rem] bg-white">
                     <Image
                       src={project.image[0]}
@@ -45,7 +45,9 @@ export default function ProjectsSection() {
 
                 {/* Caption */}
                 <div className="mt-6 px-1">
-                  <p className="text-sm text-slate-500 mb-2">{project.category}</p>
+                  <p className="text-sm text-slate-500 mb-2">
+                    {project.category}
+                  </p>
                   <h3 className="text-2xl md:text-3xl font-bold tracking-tight leading-tight text-slate-900 transition-colors group-hover:text-primary">
                     {project.title}
                   </h3>
