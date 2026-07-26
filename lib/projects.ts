@@ -3,6 +3,13 @@ export type ProjectSection = {
   body: string;
 };
 
+/** A gallery screenshot plus a caption describing the capability it shows. */
+export type Screenshot = {
+  src: string;
+  /** What the screen enables (a business capability), not the screen's name. */
+  caption: string;
+};
+
 /** A single outcome number for the <MetricsStrip />. */
 export type Metric = {
   /**
@@ -41,7 +48,7 @@ export type Project = {
   /** True for concept/demo builds (not client work). Drives the Demo badge and the client-vs-capability copy framing. */
   demo?: boolean;
   tagline: string;
-  image: string[];
+  gallery: Screenshot[];
   overview: string;
   /** Plain-language, jargon-free statement of what the business was losing/risking. */
   businessProblem?: string;
@@ -79,10 +86,22 @@ export const PROJECTS: Project[] = [
     type: "Multi-Branch Commerce Platform",
     tagline:
       "A server-rendered, multi-branch e-commerce platform with a role-based admin console and a pure server-side discount engine.",
-    image: [
-      "/images/ali-baba-web.png",
-      "/images/ali-baba-web1.png",
-      "/images/ali-baba-web2.png",
+    gallery: [
+      {
+        src: "/images/ali-baba-web.png",
+        caption:
+          "The customer storefront — a fast, server-rendered shopfront for the patisserie brand.",
+      },
+      {
+        src: "/images/ali-baba-web1.png",
+        caption:
+          "The branch control room — live per-branch sales, peak-hour demand, and best-sellers in one view.",
+      },
+      {
+        src: "/images/ali-baba-web2.png",
+        caption:
+          "The product catalog — category filtering with live, server-set discount pricing.",
+      },
     ],
     overview:
       "Ali Baba is a production-grade e-commerce platform for a multi-branch patisserie business, pairing a customer storefront with a role-gated admin console. It's built entirely on the Next.js 16 App Router with React Server Components and Server Actions — every page renders fully populated on first load, with no client-side data-fetching layer.",
@@ -151,10 +170,22 @@ export const PROJECTS: Project[] = [
     type: "Luxury Fragrance Storefront",
     tagline:
       "A security-hardened luxury fragrance storefront with server-authoritative pricing and a Vitest-tested commerce core.",
-    image: [
-      "/images/rose-misk.png",
-      "/images/rosemisk1.png",
-      "/images/rosemisk2.png",
+    gallery: [
+      {
+        src: "/images/rose-misk.png",
+        caption:
+          "The luxury storefront — a branded shopfront leading with best-sellers and new collections.",
+      },
+      {
+        src: "/images/rosemisk1.png",
+        caption:
+          "Faceted product browsing — filter fragrances by category and type, resolved on the server.",
+      },
+      {
+        src: "/images/rosemisk2.png",
+        caption:
+          "The admin command center — revenue, orders, customers, and pending fulfilment at a glance.",
+      },
     ],
     overview:
       "Rose Misk is a full-stack storefront and admin dashboard for premium fragrances, built on the Next.js 16 App Router. Its defining trait is a layered security architecture where authentication and validation “live next to the data.”",
@@ -215,7 +246,13 @@ export const PROJECTS: Project[] = [
     demo: true,
     tagline:
       "An animation-driven luxury landing page with twelve scroll-reactive sections and refined Framer Motion choreography.",
-    image: ["/images/landing-page.png"],
+    gallery: [
+      {
+        src: "/images/landing-page.png",
+        caption:
+          "The hero moment — scroll-choreographed motion built to set a premium first impression.",
+      },
+    ],
     overview:
       "A polished, single-page marketing site built with the Next.js App Router and React 19, showcasing scroll-driven motion design with Framer Motion across twelve independently animated sections.",
     businessProblem:
@@ -251,7 +288,13 @@ export const PROJECTS: Project[] = [
     demo: true,
     tagline:
       "A role-based blogging and content-management platform pairing a fast public reading experience with a full authoring dashboard.",
-    image: ["/images/storyflow-blog.png"],
+    gallery: [
+      {
+        src: "/images/storyflow-blog.png",
+        caption:
+          "The reading experience — server-side search over a fast, streaming article feed.",
+      },
+    ],
     overview:
       "StoryFlow pairs a public reading experience with a role-based dashboard for authoring and administration, built on the Next.js 16 App Router and React 19 with the React Compiler enabled.",
     businessProblem:

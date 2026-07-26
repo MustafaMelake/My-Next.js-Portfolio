@@ -34,7 +34,7 @@ export default function ProjectsSection() {
                 {/* Framed preview */}
                 <div className="rounded-[2rem] p-3 md:p-4 ring-1 ring-indigo-100/80 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-2xl group-hover:shadow-indigo-200/50">
                   <ProjectThumbnail
-                    src={project.image[0]}
+                    src={project.gallery[0]?.src}
                     alt={`${project.title} screenshot`}
                     title={project.title}
                     slug={project.slug}

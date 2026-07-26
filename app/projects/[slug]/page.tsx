@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,6 +9,7 @@ import { WhatThisProtects } from "@/components/WhatThisProtects";
 import { Testimonial } from "@/components/Testimonial";
 import { BookingCta } from "@/components/BookingCta";
 import { DemoBadge } from "@/components/DemoBadge";
+import { ScreenshotGallery } from "@/components/ScreenshotGallery";
 import { cn } from "@/lib/utils";
 import { PROJECTS, getProject, FRONTEND_STACK } from "@/lib/projects";
 
@@ -78,38 +78,11 @@ export default async function ProjectPage({ params }: Params) {
 
         {/* Preview gallery */}
         <FadeIn direction="up" delay={0.1}>
-          <div
-            className={cn(
-              "mb-16 grid gap-4",
-              project.image.length > 1 ? "md:grid-cols-3" : "grid-cols-1"
-            )}
-          >
-            {project.image.map((src, i) => (
-              <div
-                key={src}
-                className="rounded-[2rem] p-3 ring-1 ring-indigo-100 md:p-4"
-              >
-                <div
-                  className={cn(
-                    "relative overflow-hidden rounded-[1.4rem] bg-white",
-                    project.image.length > 1 ? "aspect-[4/3]" : "aspect-[16/10]"
-                  )}
-                >
-                  <Image
-                    src={src}
-                    alt={`${project.title} screenshot ${i + 1}`}
-                    fill
-                    priority={i === 0}
-                    sizes={
-                      project.image.length > 1
-                        ? "(max-width: 768px) 100vw, 33vw"
-                        : "100vw"
-                    }
-                    className="object-cover object-top"
-                  />
-                </div>
-              </div>
-            ))}
+          <div className="mb-16">
+            <ScreenshotGallery
+              screenshots={project.gallery}
+              title={project.title}
+            />
           </div>
         </FadeIn>
 
