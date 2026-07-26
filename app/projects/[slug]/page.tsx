@@ -5,6 +5,11 @@ import Link from "next/link";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/FadeIn";
+import { MetricsStrip } from "@/components/MetricsStrip";
+import { WhatThisProtects } from "@/components/WhatThisProtects";
+import { Testimonial } from "@/components/Testimonial";
+import { BookingCta } from "@/components/BookingCta";
+import { DemoBadge } from "@/components/DemoBadge";
 import { cn } from "@/lib/utils";
 import { PROJECTS, getProject, FRONTEND_STACK } from "@/lib/projects";
 
@@ -56,9 +61,12 @@ export default async function ProjectPage({ params }: Params) {
         {/* Title */}
         <FadeIn direction="up">
           <div className="mx-auto mb-14 max-w-4xl text-center">
-            <p className="mb-4 font-mono text-xs uppercase tracking-[0.25em] text-primary">
-              {project.category}
-            </p>
+            <div className="mb-4 flex items-center justify-center gap-3">
+              <p className="font-mono text-xs uppercase tracking-[0.25em] text-primary">
+                {project.category}
+              </p>
+              {project.demo ? <DemoBadge /> : null}
+            </div>
             <h1 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl">
               {project.title}
             </h1>
@@ -105,7 +113,36 @@ export default async function ProjectPage({ params }: Params) {
           </div>
         </FadeIn>
 
-        {/* Body */}
+        {/* Business-first narrative — served before the technical depth */}
+        <FadeIn direction="up">
+          <div className="mb-24 space-y-16 md:mb-28 md:space-y-24">
+            {project.businessProblem ? (
+              <section
+                aria-labelledby="problem-heading"
+                className="mx-auto max-w-3xl"
+              >
+                <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-primary">
+                  {project.demo ? "The concept" : "The business problem"}
+                </p>
+                <h2
+                  id="problem-heading"
+                  className="mb-5 text-3xl font-bold tracking-tight md:text-4xl"
+                >
+                  {project.demo ? "What it demonstrates" : "What was at stake"}
+                </h2>
+                <p className="text-lg leading-relaxed text-slate-700">
+                  {project.businessProblem}
+                </p>
+              </section>
+            ) : null}
+
+            <MetricsStrip metrics={project.metrics} demo={project.demo} />
+            <WhatThisProtects items={project.protects} demo={project.demo} />
+            <Testimonial data={project.testimonial} />
+          </div>
+        </FadeIn>
+
+        {/* Body — technical depth, for the evaluator */}
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-[300px_1fr] lg:gap-16">
           {/* Sidebar */}
           <aside className="h-fit space-y-8 lg:sticky lg:top-28">
@@ -146,6 +183,9 @@ export default async function ProjectPage({ params }: Params) {
           {/* Content */}
           <FadeIn direction="up" delay={0.1}>
             <div className="max-w-2xl">
+              <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-primary">
+                Under the hood
+              </p>
               <p className="mb-12 text-lg leading-relaxed text-slate-700">
                 {project.overview}
               </p>
@@ -183,6 +223,11 @@ export default async function ProjectPage({ params }: Params) {
             </div>
           </FadeIn>
         </div>
+
+        {/* Mid-page conversion CTA */}
+        <FadeIn direction="up">
+          <BookingCta />
+        </FadeIn>
       </div>
     </main>
   );
