@@ -5,8 +5,18 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Mail, MapPin, Send, Copy, Database, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
+import {
+  Mail,
+  MapPin,
+  Send,
+  Copy,
+  Database,
+  CheckCircle2,
+  CalendarDays,
+} from "lucide-react";
 import { FadeIn } from "./FadeIn";
+import { bookingHref, HAS_BOOKING } from "@/lib/site";
 import type { ContactPayload } from "@/lib/validation/contact";
 
 export default function ContactSection() {
@@ -143,6 +153,32 @@ export default function ContactSection() {
                   </p>
                 </motion.div>
               )}
+
+              {/* Booking-first CTA — the form is the secondary path */}
+              <div className="mb-8">
+                <Button
+                  asChild
+                  size="lg"
+                  className="h-14 w-full gap-2 rounded-xl text-base font-bold shadow-lg"
+                >
+                  <Link
+                    href={bookingHref("#contact")}
+                    {...(HAS_BOOKING
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
+                    <CalendarDays size={18} />
+                    Book a call
+                  </Link>
+                </Button>
+                <div className="mt-6 flex items-center gap-4">
+                  <span className="h-px flex-1 bg-slate-200" />
+                  <span className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                    or send a message
+                  </span>
+                  <span className="h-px flex-1 bg-slate-200" />
+                </div>
+              </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

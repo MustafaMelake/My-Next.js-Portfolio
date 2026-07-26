@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Sparkles } from "lucide-react";
+import { Sparkles, CalendarDays, Globe } from "lucide-react";
+import { bookingHref, HAS_BOOKING, GOLD } from "@/lib/site";
 
 export default function Hero() {
   return (
@@ -25,26 +26,48 @@ export default function Hero() {
           >
             <Sparkles className="w-3 h-3" /> Available for High-End Projects
           </motion.span>
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
-            Mustafa <br />
-            <span className="text-primary italic">Next.js 16</span> Architect
+          <p className="mb-4 font-mono text-xs uppercase tracking-[0.25em] text-slate-500">
+            Mustafa Melake · Full-Stack Engineer
+          </p>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.05] mb-6">
+            Next.js e-commerce that&apos;s fast, secure, and{" "}
+            <span className="text-primary italic">correct to the cent.</span>
           </h1>
-          <p className="text-lg text-muted-foreground max-w-lg mb-8 leading-relaxed">
-            I build high-performance, type-safe web applications with{" "}
-            <strong className="font-semibold">Next.js 16</strong>,{" "}
-            <strong className="font-semibold">React 19</strong>,{" "}
-            <strong className="font-semibold">Prisma 7</strong>, and{" "}
+          <p className="text-lg text-muted-foreground max-w-lg mb-4 leading-relaxed">
+            I build fast, server-rendered online stores where{" "}
+            <strong className="font-semibold text-foreground">
+              the money is always right
+            </strong>{" "}
+            — secure by architecture, correct to the cent, and quick enough to
+            keep buyers moving. Built with{" "}
+            <strong className="font-semibold">Next.js</strong>,{" "}
+            <strong className="font-semibold">React</strong>,{" "}
+            <strong className="font-semibold">Prisma</strong>, and{" "}
             <strong className="font-semibold">PostgreSQL</strong>.
-            Server-rendered, server-validated architectures with a focus on
-            security, data integrity, and speed.
+          </p>
+          <p className="mb-8 flex items-center gap-2 text-sm font-medium text-slate-600">
+            <Globe
+              className="h-4 w-4 shrink-0"
+              style={{ color: GOLD }}
+              aria-hidden
+            />
+            Built for MENA — Arabic / RTL, EGP &amp; Gulf-ready e-commerce.
           </p>
           <div className="flex flex-wrap gap-4">
             <Button
               asChild
               size="lg"
-              className="rounded-full px-8 text-md shadow-lg hover:shadow-primary/25 transition-all"
+              className="rounded-full px-8 text-md shadow-lg hover:shadow-primary/25 transition-all gap-2"
             >
-              <Link href={"#projects"}>Explore My Work</Link>
+              <Link
+                href={bookingHref("#contact")}
+                {...(HAS_BOOKING
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+              >
+                <CalendarDays size={18} />
+                Book a call
+              </Link>
             </Button>
             <Button
               asChild
@@ -52,19 +75,19 @@ export default function Hero() {
               variant="outline"
               className="rounded-full px-8 border-slate-300 text-md hover:bg-slate-100"
             >
-              <Link href={"#contact"}>Let&apos;s Talk</Link>
+              <Link href={"#projects"}>Explore my work</Link>
             </Button>
           </div>
           {/* Trust Badges - Simple and Professional */}
           <div className="mt-12 flex flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-8 opacity-60 grayscale font-mono">
             <span className="text-[10px] md:text-sm font-bold tracking-tighter md:tracking-normal border-b border-transparent hover:border-primary transition-colors cursor-default">
-              NEXT.JS 16
+              NEXT.JS
             </span>
             <span className="text-[10px] md:text-sm font-bold tracking-tighter md:tracking-normal">
               TYPESCRIPT
             </span>
             <span className="text-[10px] md:text-sm font-bold tracking-tighter md:tracking-normal">
-              PRISMA 7
+              PRISMA
             </span>
             <span className="text-[10px] md:text-sm font-bold tracking-tighter md:tracking-normal">
               POSTGRESQL

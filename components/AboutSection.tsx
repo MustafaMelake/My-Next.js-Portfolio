@@ -33,50 +33,68 @@ const PILLARS = [
   },
 ];
 
-const STATS = [
-  { value: 4, label: "Production platforms", format: (n: number) => String(Math.round(n)).padStart(2, "0") },
-  { value: 60, label: "Automated tests passing", format: (n: number) => `${Math.round(n)}/60` },
-  { value: 100, label: "Type-safe, strictly", format: (n: number) => `${Math.round(n)}%` },
+// A count-up stat animates a number; a text stat shows a fixed word (e.g.
+// "Exact") that can't honestly be reduced to a single animated figure.
+type StatItem =
+  | {
+      kind: "count";
+      value: number;
+      label: string;
+      format: (n: number) => string;
+    }
+  | { kind: "text"; display: string; label: string };
+
+const STATS: StatItem[] = [
+  {
+    kind: "count",
+    value: 2,
+    label: "Client platforms shipped",
+    format: (n: number) => String(Math.round(n)).padStart(2, "0"),
+  },
+  {
+    kind: "count",
+    value: 100,
+    label: "Server-verified payments",
+    format: (n: number) => `${Math.round(n)}%`,
+  },
+  { kind: "text", display: "Exact", label: "Revenue tracked to the cent" },
 ];
 
-function Stat({
-  value,
-  label,
-  format,
-}: {
-  value: number;
-  label: string;
-  format: (n: number) => string;
-}) {
+function Stat({ item }: { item: StatItem }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const reduce = useReducedMotion();
   const count = useMotionValue(0);
-  const text = useTransform(count, (v) => format(v));
+  const text = useTransform(count, (v) =>
+    item.kind === "count" ? item.format(v) : ""
+  );
 
   useEffect(() => {
-    if (!inView) return;
+    if (item.kind !== "count" || !inView) return;
     if (reduce) {
-      count.set(value);
+      count.set(item.value);
       return;
     }
-    const controls = animate(count, value, {
+    const controls = animate(count, item.value, {
       duration: 1.6,
       ease: [0.22, 1, 0.36, 1],
     });
     return () => controls.stop();
-  }, [inView, value, reduce, count]);
+  }, [inView, reduce, count, item]);
+
+  const display =
+    item.kind === "count" ? item.format(item.value) : item.display;
 
   return (
-    <div ref={ref} aria-label={`${format(value)} — ${label}`}>
+    <div ref={ref} aria-label={`${display} — ${item.label}`}>
       <motion.div
         aria-hidden
         className="font-semibold text-3xl md:text-4xl tracking-tight text-white tabular-nums"
       >
-        {text}
+        {item.kind === "count" ? text : item.display}
       </motion.div>
       <div className="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-500">
-        {label}
+        {item.label}
       </div>
     </div>
   );
@@ -176,7 +194,7 @@ export default function AboutSection() {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 sm:divide-x sm:divide-white/10">
             {STATS.map((s, i) => (
               <div key={s.label} className={i === 0 ? "" : "sm:pl-8"}>
-                <Stat value={s.value} label={s.label} format={s.format} />
+                <Stat item={s} />
               </div>
             ))}
           </div>
