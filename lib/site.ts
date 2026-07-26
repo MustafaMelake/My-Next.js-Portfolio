@@ -36,3 +36,29 @@ export const HAS_BOOKING = BOOKING_URL.length > 0;
  * Kept here so new components can reuse the exact brand value.
  */
 export const GOLD = "#c9a96a";
+
+/** Display name used in metadata, JSON-LD, and OG images. */
+export const SITE_NAME = "Mustafa Melake";
+
+/**
+ * Analytics is opt-in and off by default, so local/dev and preview builds are a
+ * no-op. Set NEXT_PUBLIC_ANALYTICS=true (e.g. on the Vercel production env).
+ */
+export const ANALYTICS_ENABLED = process.env.NEXT_PUBLIC_ANALYTICS === "true";
+
+/**
+ * URL for the dynamic OG image route (app/og). Returns a root-relative URL;
+ * Next resolves it to an absolute URL via `metadataBase`.
+ */
+export function ogImageUrl(params: {
+  title: string;
+  category: string;
+  demo?: boolean;
+}): string {
+  const q = new URLSearchParams({
+    title: params.title,
+    category: params.category,
+  });
+  if (params.demo) q.set("demo", "1");
+  return `/og?${q.toString()}`;
+}

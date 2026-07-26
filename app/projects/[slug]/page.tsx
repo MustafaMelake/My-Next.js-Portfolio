@@ -10,7 +10,9 @@ import { Testimonial } from "@/components/Testimonial";
 import { BookingCta } from "@/components/BookingCta";
 import { DemoBadge } from "@/components/DemoBadge";
 import { ScreenshotGallery } from "@/components/ScreenshotGallery";
+import { JsonLd } from "@/components/JsonLd";
 import { cn } from "@/lib/utils";
+import { SITE_URL, SITE_NAME, ogImageUrl } from "@/lib/site";
 import { PROJECTS, getProject, FRONTEND_STACK } from "@/lib/projects";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -23,9 +25,31 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return { title: "Project Not Found" };
+
+  const url = `/projects/${project.slug}`;
+  const ogImage = ogImageUrl({
+    title: project.title,
+    category: project.category,
+    demo: project.demo,
+  });
+
   return {
-    title: `${project.title} | Mustafa Melake`,
+    title: project.title,
     description: project.tagline,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      title: project.title,
+      description: project.tagline,
+      images: [{ url: ogImage, width: 1200, height: 630, alt: project.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description: project.tagline,
+      images: [ogImage],
+    },
   };
 }
 
@@ -43,8 +67,29 @@ export default async function ProjectPage({ params }: Params) {
   const project = getProject(slug);
   if (!project) notFound();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    headline: project.title,
+    description: project.tagline,
+    url: `${SITE_URL}/projects/${project.slug}`,
+    inLanguage: "en",
+    genre: project.category,
+    keywords: project.tech.join(", "),
+    image: project.gallery[0]
+      ? `${SITE_URL}${project.gallery[0].src}`
+      : undefined,
+    author: {
+      "@type": "Person",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+  };
+
   return (
     <main className="min-h-screen pt-28 pb-24">
+      <JsonLd data={jsonLd} />
       <div className="container mx-auto px-6">
         {/* Back */}
         <Button
