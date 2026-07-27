@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import Image from "next/image";
@@ -47,6 +46,7 @@ export function SortableSkill({
             src={logo}
             alt={name}
             fill
+            sizes="(max-width: 768px) 64px, 80px"
             className="object-contain filter transition-all"
           />
         </div>

@@ -5,8 +5,18 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Mail, MapPin, Send, Copy, Database, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
+import {
+  Mail,
+  MapPin,
+  Send,
+  Copy,
+  Database,
+  CheckCircle2,
+  CalendarDays,
+} from "lucide-react";
 import { FadeIn } from "./FadeIn";
+import { bookingHref, HAS_BOOKING } from "@/lib/site";
 import type { ContactPayload } from "@/lib/validation/contact";
 
 export default function ContactSection() {
@@ -62,10 +72,10 @@ export default function ContactSection() {
           <FadeIn direction="right">
             <div className="space-y-8">
               <div>
-                <h3 className="text-primary font-mono font-bold tracking-widest uppercase mb-2 flex items-center gap-2">
+                <p className="text-primary font-mono font-bold tracking-widest uppercase mb-2 flex items-center gap-2">
                   <span className="w-8 h-[2px] bg-primary inline-block"></span>
                   Get In Touch
-                </h3>
+                </p>
                 <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-4">
                   READY TO <br />
                   <span className="text-slate-300">SCALE?</span>
@@ -73,46 +83,52 @@ export default function ContactSection() {
               </div>
 
               <p className="text-xl text-slate-600 max-w-md leading-relaxed">
-                Whether you need a{" "}
-                <strong className="font-semibold">Next.js Architect</strong> for
-                a new MVP or a{" "}
-                <strong className="font-semibold">Prisma/MongoDB</strong> expert
-                to scale your backend, I&apos;m here to help.
+                Whether you&apos;re launching a new{" "}
+                <strong className="font-semibold text-foreground">
+                  e-commerce store
+                </strong>{" "}
+                or hardening an existing one so the{" "}
+                <strong className="font-semibold text-foreground">
+                  money is always right
+                </strong>
+                , I&apos;m here to help.
               </p>
 
               <div className="space-y-6 pt-4">
-                <div
-                  className="flex items-center gap-5 group cursor-pointer"
+                <button
+                  type="button"
                   onClick={copyEmail}
+                  aria-label="Copy email address to clipboard"
+                  className="flex w-full items-center gap-5 group cursor-pointer text-left rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 >
                   <div className="p-4 bg-white shadow-xl rounded-2xl group-hover:bg-primary group-hover:text-white transition-all duration-300 group-hover:-translate-y-1">
                     <Mail size={24} />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">
                       Email Me
                     </p>
                     <p className="text-xl font-bold flex items-center gap-2 group-hover:text-primary transition-colors">
                       mustafamelake@gmail.com
                       <Copy
                         size={16}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-400"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-500"
                       />
                     </p>
                   </div>
-                </div>
+                </button>
 
                 <div className="flex items-center gap-5">
                   <div className="p-4 bg-white shadow-xl rounded-2xl">
                     <MapPin size={24} />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">
                       Location
                     </p>
                     <p className="text-xl font-bold">
                       Cairo, Egypt{" "}
-                      <span className="text-slate-400 font-medium">
+                      <span className="text-slate-500 font-medium">
                         | Remote Worldwide
                       </span>
                     </p>
@@ -128,6 +144,8 @@ export default function ContactSection() {
               {/* Success Overlay */}
               {submitted && (
                 <motion.div
+                  role="status"
+                  aria-live="polite"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="absolute inset-0 bg-white/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center text-center p-6"
@@ -139,6 +157,32 @@ export default function ContactSection() {
                   </p>
                 </motion.div>
               )}
+
+              {/* Booking-first CTA — the form is the secondary path */}
+              <div className="mb-8">
+                <Button
+                  asChild
+                  size="lg"
+                  className="h-14 w-full gap-2 rounded-xl text-base font-bold shadow-lg"
+                >
+                  <Link
+                    href={bookingHref("#contact")}
+                    {...(HAS_BOOKING
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
+                    <CalendarDays size={18} />
+                    Book a call
+                  </Link>
+                </Button>
+                <div className="mt-6 flex items-center gap-4">
+                  <span className="h-px flex-1 bg-slate-200" />
+                  <span className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                    or send a message
+                  </span>
+                  <span className="h-px flex-1 bg-slate-200" />
+                </div>
+              </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -24,6 +24,9 @@
 .DS_Store
 *.pem
 
+# local working brief / task list (not part of the app)
+TASKS.md
+
 # debug
 npm-debug.log*
 yarn-debug.log*

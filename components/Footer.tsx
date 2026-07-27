@@ -86,13 +86,16 @@ export default function Footer() {
 
         {/* Massive Background Text (The Aggressive Part) */}
         <div className="absolute -bottom-10 left-0 right-0 pointer-events-none select-none opacity-[0.03] flex justify-center overflow-hidden">
-          <h1 className="text-[20rem] font-black leading-none whitespace-nowrap">
+          <div
+            aria-hidden="true"
+            className="text-[20rem] font-black leading-none whitespace-nowrap"
+          >
             MUSTAFA
-          </h1>
+          </div>
         </div>
 
         {/* BOTTOM BAR */}
-        <div className="mt-24 pt-8 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-slate-400">
+        <div className="mt-24 pt-8 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-slate-500">
           <p>© {currentYear} MUSTAFA. ALL RIGHTS RESERVED.</p>
           <p>BUILT WITH NEXT.JS + TAILWIND V4</p>
         </div>

@@ -9,235 +9,224 @@ import {
   useTransform,
 } from "framer-motion";
 import Link from "next/link";
-import { ShieldCheck, Gauge, Coins, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 import { FadeIn } from "./FadeIn";
+import { GOLD } from "@/lib/site";
 
-const GOLD = "#c9a96a";
+/*
+ * Editorial About section: big-impact stats grid -> two-column philosophy ->
+ * numbered capabilities list. All copy is honest (see below): a "count" stat
+ * animates a real number; a "text" stat shows a fixed word that can't be
+ * reduced to one figure. No unprovable claims (no invented uptime %, no
+ * absolute "zero error" boast).
+ */
+type StatItem =
+  | {
+      kind: "count";
+      value: number;
+      label: string;
+      format: (n: number) => string;
+    }
+  | { kind: "text"; display: string; label: string };
 
-const PILLARS = [
+const STATS: StatItem[] = [
   {
-    icon: Coins,
-    title: "Revenue you can trust",
-    body: "Server-authoritative pricing, financial-grade Decimal money, and race-safe stock control mean every transaction is correct and impossible to tamper with — no leaks, no rounding drift, no disputes.",
+    kind: "count",
+    value: 2,
+    label: "Client platforms shipped",
+    format: (n) => String(Math.round(n)).padStart(2, "0"),
   },
   {
-    icon: ShieldCheck,
+    kind: "count",
+    value: 100,
+    label: "Server-verified payments",
+    format: (n) => `${Math.round(n)}%`,
+  },
+  { kind: "text", display: "Exact", label: "Revenue tracked to the cent" },
+  {
+    kind: "count",
+    value: 60,
+    label: "Commerce-core tests passing",
+    format: (n) => `${Math.round(n)}/60`,
+  },
+];
+
+const CAPABILITIES = [
+  {
+    title: "Server-first e-commerce",
+    body: "Storefronts render on the server, and every price, discount, and stock check is resolved there too — so pages load fast and customers are always charged exactly what you set.",
+    tags: ["Next.js", "React", "Server Actions"],
+  },
+  {
+    title: "Money & data integrity",
+    body: "Financial-grade Decimal money and one canonical revenue rule keep your totals and reports correct to the cent — across SQL and NoSQL data layers alike.",
+    tags: ["PostgreSQL", "Prisma", "Mongoose"],
+  },
+  {
     title: "Security by architecture",
-    body: "Layered authentication guards, role-based access resolved live from the database, and Zod-validated server actions protect your platform and your customers by design — never as an afterthought.",
+    body: "Role-based access is resolved live from the database and every input is validated next to the data, so your platform and customers are protected by design — not as an afterthought.",
+    tags: ["RBAC", "Zod", "Better Auth"],
   },
   {
-    icon: Gauge,
-    title: "Speed that converts",
-    body: "React Server Components, streaming, request-level caching, and edge middleware deliver sub-second loads — directly lifting your SEO, your conversions, and the impression your brand makes.",
+    title: "Built for MENA & the Gulf",
+    body: "Arabic, full RTL, and EGP / Gulf-ready formatting are designed in from the first commit, so your store feels native to the region rather than translated onto it.",
+    tags: ["Arabic / RTL", "EGP", "i18n"],
   },
 ];
 
-const STATS = [
-  { value: 4, label: "Production platforms", format: (n: number) => String(Math.round(n)).padStart(2, "0") },
-  { value: 60, label: "Automated tests passing", format: (n: number) => `${Math.round(n)}/60` },
-  { value: 100, label: "Type-safe, strictly", format: (n: number) => `${Math.round(n)}%` },
-];
-
-function Stat({
-  value,
-  label,
-  format,
-}: {
-  value: number;
-  label: string;
-  format: (n: number) => string;
-}) {
+function Stat({ item }: { item: StatItem }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const reduce = useReducedMotion();
   const count = useMotionValue(0);
-  const text = useTransform(count, (v) => format(v));
+  const text = useTransform(count, (v) =>
+    item.kind === "count" ? item.format(v) : ""
+  );
 
   useEffect(() => {
-    if (!inView) return;
+    if (item.kind !== "count" || !inView) return;
     if (reduce) {
-      count.set(value);
+      count.set(item.value);
       return;
     }
-    const controls = animate(count, value, {
+    const controls = animate(count, item.value, {
       duration: 1.6,
       ease: [0.22, 1, 0.36, 1],
     });
     return () => controls.stop();
-  }, [inView, value, reduce, count]);
+  }, [inView, reduce, count, item]);
+
+  const display =
+    item.kind === "count" ? item.format(item.value) : item.display;
 
   return (
-    <div ref={ref} aria-label={`${format(value)} — ${label}`}>
+    <div ref={ref} aria-label={`${display} — ${item.label}`}>
       <motion.div
         aria-hidden
-        className="font-semibold text-3xl md:text-4xl tracking-tight text-white tabular-nums"
+        className="text-5xl font-bold tracking-tighter tabular-nums text-slate-900 md:text-7xl"
       >
-        {text}
+        {item.kind === "count" ? text : item.display}
       </motion.div>
-      <div className="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-500">
-        {label}
+      <div className="mt-3 max-w-[12rem] text-sm leading-snug text-slate-500">
+        {item.label}
       </div>
     </div>
   );
 }
 
 export default function AboutSection() {
-  const reduce = useReducedMotion();
-
   return (
-    <section id="about" className="relative overflow-hidden py-28 md:py-36">
-      {/* Ambient warmth behind the panel */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[80%] max-w-4xl -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.06] blur-[120px]"
-        style={{ backgroundColor: GOLD }}
-      />
-
-      <div className="container relative mx-auto px-6">
-        {/* Header */}
+    <section id="about" className="relative py-28 md:py-36">
+      <div className="container mx-auto px-6">
+        {/* Eyebrow */}
         <FadeIn direction="up">
-          <div className="mb-14 max-w-3xl">
-            <p
-              className="mb-4 font-mono text-xs uppercase tracking-[0.3em]"
-              style={{ color: GOLD }}
-            >
-              About
-            </p>
-            <h2 className="text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl">
-              Software businesses can&apos;t
-              <br />
-              afford to get wrong.
-            </h2>
+          <p className="mb-12 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.3em] text-slate-500">
+            <span
+              aria-hidden
+              className="inline-block h-2 w-2 rounded-full"
+              style={{ backgroundColor: GOLD }}
+            />
+            About
+          </p>
+        </FadeIn>
+
+        {/* 1. Big-impact stats grid */}
+        <FadeIn direction="up">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4">
+            {STATS.map((s) => (
+              <Stat key={s.label} item={s} />
+            ))}
           </div>
         </FadeIn>
 
-        {/* Manifesto panel */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="relative overflow-hidden rounded-[2.5rem] bg-[#0b0b0d] p-8 shadow-2xl ring-1 ring-white/5 md:p-14 lg:p-16"
-        >
-          {/* Corner hairlines */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute right-0 top-0 h-40 w-40 opacity-40"
-            style={{
-              background: `radial-gradient(circle at top right, ${GOLD}22, transparent 70%)`,
-            }}
-          />
+        <hr className="my-16 border-slate-200 md:my-20" />
 
-          <div className="mb-8 flex items-center justify-between gap-4">
-            <span
-              className="font-mono text-[11px] uppercase tracking-[0.3em]"
-              style={{ color: GOLD }}
-            >
-              The Engineer
-            </span>
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-500">
-              Cairo · Remote Worldwide
-            </span>
-          </div>
+        {/* 2. Two-column philosophy */}
+        <FadeIn direction="up">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-[1fr_2fr] md:gap-16">
+            {/* Kicker */}
+            <div>
+              <p className="text-lg font-bold tracking-tight text-slate-900">
+                Mustafa Melake
+              </p>
+              <p className="mt-1 font-mono text-xs uppercase tracking-[0.25em] text-slate-500">
+                Engineering Philosophy
+              </p>
+            </div>
 
-          <p className="max-w-3xl text-2xl font-medium leading-snug text-neutral-100 md:text-4xl md:leading-[1.15]">
-            I ship production-grade platforms end to end — secure,
-            server-validated, and fast enough to feel{" "}
-            <span className="italic" style={{ color: GOLD }}>
-              effortless
-            </span>
-            .
-          </p>
+            {/* Statement + supporting copy */}
+            <div>
+              <h2 className="text-2xl font-medium leading-snug tracking-tight text-slate-900 md:text-4xl md:leading-[1.2]">
+                <span className="text-slate-500">
+                  My approach is simple:{" "}
+                </span>
+                I focus on{" "}
+                <span className="font-semibold">
+                  functionality, speed, and business integrity
+                </span>{" "}
+                — every line of code serving a clear commercial purpose, without
+                unnecessary complexity.
+              </h2>
 
-          <p className="mt-8 max-w-2xl text-base leading-relaxed text-neutral-400 md:text-lg">
-            I&apos;m Mustafa — a full-stack engineer who builds the systems
-            serious businesses run on. Not prototypes, not templates: real
-            platforms where the money is always right, the data is always
-            protected, and pages load before your customer can blink. Every line
-            is written to survive production, scale cleanly, and make your
-            business look as considered as it is.
-          </p>
+              <p className="mt-8 max-w-xl text-base leading-relaxed text-slate-600">
+                I build and run the whole stack — server-rendered storefronts,
+                the admin tools that manage them, and the databases behind both
+                — so nothing slips through the gaps between front end and back.
+                And because I build for MENA and the Gulf, Arabic, RTL, and local
+                currency are designed in from the first commit, never bolted on.
+              </p>
 
-          {/* Self-drawing gold divider */}
-          <motion.div
-            aria-hidden
-            initial={{ scaleX: reduce ? 1 : 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true, amount: 0.6 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-            className="my-10 h-px w-full origin-left"
-            style={{
-              background: `linear-gradient(to right, ${GOLD}, ${GOLD}55, transparent)`,
-            }}
-          />
-
-          {/* Proof metrics */}
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 sm:divide-x sm:divide-white/10">
-            {STATS.map((s, i) => (
-              <div key={s.label} className={i === 0 ? "" : "sm:pl-8"}>
-                <Stat value={s.value} label={s.label} format={s.format} />
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Capability pillars */}
-        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {PILLARS.map((pillar, index) => {
-            const Icon = pillar.icon;
-            return (
-              <FadeIn key={pillar.title} direction="up" delay={index * 0.1}>
-                <motion.div
-                  whileHover={reduce ? undefined : { y: -6 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 28 }}
-                  className="group relative h-full overflow-hidden rounded-2xl border border-slate-200/70 bg-white/60 p-8 shadow-sm backdrop-blur-sm transition-shadow duration-300 hover:shadow-xl"
-                >
-                  <span
-                    aria-hidden
-                    className="absolute inset-x-8 top-0 h-px opacity-60"
-                    style={{
-                      background: `linear-gradient(to right, transparent, ${GOLD}, transparent)`,
-                    }}
-                  />
-                  <Icon
-                    className="mb-5 h-7 w-7"
-                    strokeWidth={1.5}
-                    style={{ color: GOLD }}
-                  />
-                  <h3 className="mb-3 text-lg font-semibold tracking-tight">
-                    {pillar.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-slate-500">
-                    {pillar.body}
-                  </p>
-                </motion.div>
-              </FadeIn>
-            );
-          })}
-        </div>
-
-        {/* CTA */}
-        <FadeIn direction="up" delay={0.1}>
-          <div className="mt-16 flex flex-col items-start justify-between gap-6 border-t border-slate-200 pt-10 md:flex-row md:items-center">
-            <p className="max-w-md text-lg text-slate-600">
-              I take on a handful of projects at a time, so the work stays
-              exceptional.
-            </p>
-            <Button
-              asChild
-              size="lg"
-              className="group gap-2 rounded-full bg-black px-8 text-base text-white hover:bg-black/90"
-            >
-              <Link href="#contact">
-                Start a conversation
+              <Link
+                href="#projects"
+                className="group mt-8 inline-flex items-center gap-2 text-sm font-semibold text-slate-900 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              >
+                See my work
                 <ArrowRight
-                  size={18}
+                  size={16}
                   className="transition-transform group-hover:translate-x-1"
                 />
               </Link>
-            </Button>
+            </div>
           </div>
+        </FadeIn>
+
+        <hr className="my-16 border-slate-200 md:my-20" />
+
+        {/* 3. Expertise & capabilities */}
+        <FadeIn direction="up">
+          <p className="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-slate-500">
+            Expertise &amp; Capabilities
+          </p>
+          <ul>
+            {CAPABILITIES.map((cap, i) => (
+              <li
+                key={cap.title}
+                className="grid grid-cols-1 gap-4 border-t border-slate-200 py-8 md:grid-cols-[auto_1fr_auto] md:items-start md:gap-10"
+              >
+                <span className="font-mono text-sm font-semibold text-slate-900">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="text-xl font-bold tracking-tight text-slate-900 md:text-2xl">
+                    {cap.title}
+                  </h3>
+                  <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-600 md:text-base">
+                    {cap.body}
+                  </p>
+                </div>
+                <ul className="flex flex-wrap gap-2 md:max-w-[240px] md:justify-end">
+                  {cap.tags.map((t) => (
+                    <li
+                      key={t}
+                      className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-slate-500"
+                    >
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
         </FadeIn>
       </div>
     </section>

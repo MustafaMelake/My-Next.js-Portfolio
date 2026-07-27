@@ -1,8 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "./FadeIn";
+import { ProjectThumbnail } from "./ProjectThumbnail";
+import { DemoBadge } from "./DemoBadge";
 import { PROJECTS } from "@/lib/projects";
 
 export default function ProjectsSection() {
@@ -32,22 +33,23 @@ export default function ProjectsSection() {
               >
                 {/* Framed preview */}
                 <div className="rounded-[2rem] p-3 md:p-4 ring-1 ring-indigo-100/80 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-2xl group-hover:shadow-indigo-200/50">
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-[1.4rem] bg-white">
-                    <Image
-                      src={project.image[0]}
-                      alt={`${project.title} screenshot`}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                    />
-                  </div>
+                  <ProjectThumbnail
+                    src={project.gallery[0]?.src}
+                    alt={`${project.title} screenshot`}
+                    title={project.title}
+                    slug={project.slug}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="aspect-[4/3] rounded-[1.4rem]"
+                    imgClassName="transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                  />
                 </div>
 
                 {/* Caption */}
                 <div className="mt-6 px-1">
-                  <p className="text-sm text-slate-500 mb-2">
-                    {project.category}
-                  </p>
+                  <div className="mb-2 flex items-center gap-2">
+                    <p className="text-sm text-slate-500">{project.category}</p>
+                    {project.demo ? <DemoBadge /> : null}
+                  </div>
                   <h3 className="text-2xl md:text-3xl font-bold tracking-tight leading-tight text-slate-900 transition-colors group-hover:text-primary">
                     {project.title}
                   </h3>

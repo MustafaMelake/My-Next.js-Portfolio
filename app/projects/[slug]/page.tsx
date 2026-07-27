@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/FadeIn";
+import { MetricsStrip } from "@/components/MetricsStrip";
+import { WhatThisProtects } from "@/components/WhatThisProtects";
+import { Testimonial } from "@/components/Testimonial";
+import { BookingCta } from "@/components/BookingCta";
+import { DemoBadge } from "@/components/DemoBadge";
+import { ScreenshotGallery } from "@/components/ScreenshotGallery";
+import { JsonLd } from "@/components/JsonLd";
 import { cn } from "@/lib/utils";
+import { SITE_URL, SITE_NAME, ogImageUrl } from "@/lib/site";
 import { PROJECTS, getProject, FRONTEND_STACK } from "@/lib/projects";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -18,16 +25,38 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return { title: "Project Not Found" };
+
+  const url = `/projects/${project.slug}`;
+  const ogImage = ogImageUrl({
+    title: project.title,
+    category: project.category,
+    demo: project.demo,
+  });
+
   return {
-    title: `${project.title} | Mustafa Melake`,
+    title: project.title,
     description: project.tagline,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      title: project.title,
+      description: project.tagline,
+      images: [{ url: ogImage, width: 1200, height: 630, alt: project.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description: project.tagline,
+      images: [ogImage],
+    },
   };
 }
 
 function MetaRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-start justify-between gap-4 border-b border-slate-100 py-3">
-      <dt className="text-sm text-slate-400">{label}</dt>
+      <dt className="text-sm text-slate-500">{label}</dt>
       <dd className="text-sm font-medium text-slate-800 text-right">{value}</dd>
     </div>
   );
@@ -38,8 +67,29 @@ export default async function ProjectPage({ params }: Params) {
   const project = getProject(slug);
   if (!project) notFound();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    headline: project.title,
+    description: project.tagline,
+    url: `${SITE_URL}/projects/${project.slug}`,
+    inLanguage: "en",
+    genre: project.category,
+    keywords: project.tech.join(", "),
+    image: project.gallery[0]
+      ? `${SITE_URL}${project.gallery[0].src}`
+      : undefined,
+    author: {
+      "@type": "Person",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+  };
+
   return (
     <main className="min-h-screen pt-28 pb-24">
+      <JsonLd data={jsonLd} />
       <div className="container mx-auto px-6">
         {/* Back */}
         <Button
@@ -56,9 +106,12 @@ export default async function ProjectPage({ params }: Params) {
         {/* Title */}
         <FadeIn direction="up">
           <div className="mx-auto mb-14 max-w-4xl text-center">
-            <p className="mb-4 font-mono text-xs uppercase tracking-[0.25em] text-primary">
-              {project.category}
-            </p>
+            <div className="mb-4 flex items-center justify-center gap-3">
+              <p className="font-mono text-xs uppercase tracking-[0.25em] text-primary">
+                {project.category}
+              </p>
+              {project.demo ? <DemoBadge /> : null}
+            </div>
             <h1 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl">
               {project.title}
             </h1>
@@ -70,42 +123,15 @@ export default async function ProjectPage({ params }: Params) {
 
         {/* Preview gallery */}
         <FadeIn direction="up" delay={0.1}>
-          <div
-            className={cn(
-              "mb-16 grid gap-4",
-              project.image.length > 1 ? "md:grid-cols-3" : "grid-cols-1"
-            )}
-          >
-            {project.image.map((src, i) => (
-              <div
-                key={src}
-                className="rounded-[2rem] p-3 ring-1 ring-indigo-100 md:p-4"
-              >
-                <div
-                  className={cn(
-                    "relative overflow-hidden rounded-[1.4rem] bg-white",
-                    project.image.length > 1 ? "aspect-[4/3]" : "aspect-[16/10]"
-                  )}
-                >
-                  <Image
-                    src={src}
-                    alt={`${project.title} screenshot ${i + 1}`}
-                    fill
-                    priority={i === 0}
-                    sizes={
-                      project.image.length > 1
-                        ? "(max-width: 768px) 100vw, 33vw"
-                        : "100vw"
-                    }
-                    className="object-cover object-top"
-                  />
-                </div>
-              </div>
-            ))}
+          <div className="mb-16">
+            <ScreenshotGallery
+              screenshots={project.gallery}
+              title={project.title}
+            />
           </div>
         </FadeIn>
 
-        {/* Body */}
+        {/* Body — sticky meta sidebar + one editorial reading stream */}
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-[300px_1fr] lg:gap-16">
           {/* Sidebar */}
           <aside className="h-fit space-y-8 lg:sticky lg:top-28">
@@ -143,46 +169,87 @@ export default async function ProjectPage({ params }: Params) {
             </div>
           </aside>
 
-          {/* Content */}
+          {/* Content — single vertical stream: business first, then depth */}
           <FadeIn direction="up" delay={0.1}>
-            <div className="max-w-2xl">
-              <p className="mb-12 text-lg leading-relaxed text-slate-700">
-                {project.overview}
-              </p>
-
-              {project.sections.map((section) => (
-                <div key={section.heading} className="mb-10">
-                  <h2 className="mb-3 text-2xl font-bold tracking-tight">
-                    {section.heading}
+            <div className="max-w-2xl space-y-12">
+              {/* The business problem */}
+              {project.businessProblem ? (
+                <section aria-labelledby="problem-heading">
+                  <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-primary">
+                    {project.demo ? "The concept" : "The business problem"}
+                  </p>
+                  <h2
+                    id="problem-heading"
+                    className="mb-3 text-2xl font-bold tracking-tight text-slate-900"
+                  >
+                    {project.demo ? "What it demonstrates" : "What was at stake"}
                   </h2>
                   <p className="leading-relaxed text-slate-600">
-                    {section.body}
+                    {project.businessProblem}
                   </p>
-                </div>
-              ))}
+                </section>
+              ) : null}
 
-              {/* Tech stack */}
-              <h2 className="mb-4 text-2xl font-bold tracking-tight">
-                Built With
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {project.tech.map((t) => (
-                  <span
-                    key={t}
-                    className={cn(
-                      "rounded-full border px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider",
-                      FRONTEND_STACK.has(t)
-                        ? "border-primary/20 bg-primary/10 text-primary shadow-sm shadow-primary/10"
-                        : "border-slate-200 bg-slate-50 text-slate-500"
-                    )}
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
+              {/* Outcomes (renders only when a metric value is filled) */}
+              <MetricsStrip metrics={project.metrics} demo={project.demo} />
+
+              {/* What this protects (editorial text blocks) */}
+              <WhatThisProtects items={project.protects} demo={project.demo} />
+
+              {/* Under the hood */}
+              <section>
+                <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-primary">
+                  Under the hood
+                </p>
+                <p className="mb-8 leading-relaxed text-slate-600">
+                  {project.overview}
+                </p>
+                <div className="space-y-8">
+                  {project.sections.map((section) => (
+                    <div key={section.heading}>
+                      <h2 className="mb-3 text-2xl font-bold tracking-tight text-slate-900">
+                        {section.heading}
+                      </h2>
+                      <p className="leading-relaxed text-slate-600">
+                        {section.body}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* Built With */}
+              <section>
+                <h2 className="mb-4 text-2xl font-bold tracking-tight text-slate-900">
+                  Built With
+                </h2>
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.map((t) => (
+                    <span
+                      key={t}
+                      className={cn(
+                        "rounded-full border px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider",
+                        FRONTEND_STACK.has(t)
+                          ? "border-primary/20 bg-primary/10 text-primary shadow-sm shadow-primary/10"
+                          : "border-slate-200 bg-slate-50 text-slate-500"
+                      )}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </section>
+
+              {/* Testimonial (renders only when present) */}
+              <Testimonial data={project.testimonial} />
             </div>
           </FadeIn>
         </div>
+
+        {/* Mid-page conversion CTA */}
+        <FadeIn direction="up">
+          <BookingCta />
+        </FadeIn>
       </div>
     </main>
   );
