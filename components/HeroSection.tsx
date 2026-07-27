@@ -21,7 +21,7 @@ function useHydrated() {
   );
 }
 
-/** Desktop viewport as an external store; SSR defaults to mobile (no flip). */
+/** Desktop viewport (>= md) as an external store; SSR defaults to mobile. */
 function useIsDesktop() {
   return useSyncExternalStore(
     (cb) => {
@@ -35,11 +35,18 @@ function useIsDesktop() {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Shared, presentation-only pieces (reused by both variants)                 */
+/* Shared, presentation-only pieces                                           */
 /* -------------------------------------------------------------------------- */
 
-/** The single page h1. */
-function IntroHeading({ className }: { className?: string }) {
+/** The single page h1. `compact` uses a controlled size for the stacked view. */
+function IntroHeading({
+  className,
+  compact = false,
+}: {
+  className?: string;
+  compact?: boolean;
+}) {
+  const size = compact ? "text-5xl sm:text-6xl" : "text-[15vw] lg:text-[13vw]";
   return (
     <h1
       className={cn(
@@ -47,38 +54,32 @@ function IntroHeading({ className }: { className?: string }) {
         className
       )}
     >
-      <span className="block text-[15vw] md:text-[13vw]">Full Stack</span>
-      <span className="block text-[15vw] md:text-[13vw]">Engineer</span>
+      <span className={cn("block whitespace-nowrap", size)}>Full Stack</span>
+      <span className={cn("block whitespace-nowrap", size)}>Engineer</span>
     </h1>
   );
 }
 
-function Greeting({ className }: { className?: string }) {
+function Greeting() {
   return (
-    <p
-      className={cn(
-        "text-2xl font-bold leading-tight tracking-tight text-slate-900 md:text-3xl",
-        className
-      )}
-    >
+    <p className="text-3xl font-bold leading-[1.1] tracking-tight text-slate-900 md:text-4xl lg:text-5xl">
       Hey! I&apos;m Mustafa — a builder based in Egypt.
     </p>
   );
 }
 
-function Bio({ className }: { className?: string }) {
+function Bio() {
   return (
-    <div className={className}>
-      <p className="text-base leading-relaxed text-slate-600 md:text-lg">
+    <div>
+      <p className="text-base leading-relaxed text-slate-700 md:text-lg">
         I build{" "}
         <strong className="font-semibold text-slate-900">
           scalable, correct-to-the-cent e-commerce
         </strong>{" "}
         on Next.js — server-rendered storefronts where the money is always
-        right, the data is protected, and pages load before your customer can
-        blink.
+        right and pages load before your customer can blink.
       </p>
-      <div className="mt-5 flex flex-wrap items-center gap-4">
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-4 md:justify-start">
         <Button asChild className="gap-2 rounded-full px-6">
           <Link
             href={bookingHref("#contact")}
@@ -114,50 +115,71 @@ function CornerUtilities() {
   );
 }
 
-/** Abstract geometric accents. Decorative only. */
+/** Abstract geometric accents. Decorative only (desktop scene). */
 function FloatingShapes() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0">
-      <span className="absolute left-[8%] top-[22%] h-16 w-16 rounded-full border border-slate-300 md:h-24 md:w-24" />
+      <span className="absolute left-[8%] top-[22%] h-16 w-16 rounded-full border border-slate-300 lg:h-24 lg:w-24" />
       <span
         className="absolute right-[12%] top-[28%] h-3 w-3 rounded-full"
         style={{ backgroundColor: GOLD }}
       />
-      <span className="absolute right-[18%] top-[16%] block h-10 w-10 rotate-12 border border-slate-300 md:h-14 md:w-14" />
+      <span className="absolute right-[18%] top-[16%] block h-10 w-10 rotate-12 border border-slate-300 lg:h-14 lg:w-14" />
     </div>
   );
 }
 
 /* -------------------------------------------------------------------------- */
-/* Static variant — SSR default + prefers-reduced-motion                      */
+/* Stacked variant — mobile (<md), reduced-motion, and SSR                    */
 /* -------------------------------------------------------------------------- */
 
-function HeroStatic() {
+function HeroStacked({ animate }: { animate: boolean }) {
+  const mount = (i: number) =>
+    animate
+      ? {
+          initial: { opacity: 0, y: 20 },
+          animate: { opacity: 1, y: 0 },
+          transition: {
+            duration: 0.5,
+            delay: i * 0.12,
+            ease: [0.22, 1, 0.36, 1] as const,
+          },
+        }
+      : {};
+
   return (
-    <section className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-slate-50 px-6 pb-16 pt-28">
-      <FloatingShapes />
-      <IntroHeading className="text-center" />
-      <div className="relative mt-8 mb-10 h-[300px] w-[232px] overflow-hidden rounded-2xl shadow-2xl ring-1 ring-black/5 md:h-[380px] md:w-[300px]">
+    <section className="relative flex min-h-dvh flex-col items-center justify-center gap-8 overflow-hidden bg-slate-50 px-6 pb-20 pt-28 text-center">
+      <motion.div {...mount(0)}>
+        <IntroHeading compact className="text-center" />
+      </motion.div>
+
+      <motion.div
+        {...mount(1)}
+        className="relative h-[300px] w-[232px] overflow-hidden rounded-2xl shadow-2xl ring-1 ring-black/5"
+      >
         <Image
           src={PORTRAIT}
           alt={PORTRAIT_ALT}
           fill
           priority
-          sizes="(max-width: 768px) 232px, 300px"
+          sizes="232px"
           className="object-cover"
         />
-      </div>
-      <div className="grid max-w-4xl grid-cols-1 items-center gap-8 text-center md:grid-cols-2 md:gap-16 md:text-left">
+      </motion.div>
+
+      <motion.div {...mount(2)}>
         <Greeting />
+      </motion.div>
+
+      <motion.div {...mount(3)} className="w-full max-w-md">
         <Bio />
-      </div>
-      <CornerUtilities />
+      </motion.div>
     </section>
   );
 }
 
 /* -------------------------------------------------------------------------- */
-/* Scroll variant — full choreography                                         */
+/* Scroll variant — desktop only (>= md)                                      */
 /* -------------------------------------------------------------------------- */
 
 function HeroScroll() {
@@ -167,30 +189,24 @@ function HeroScroll() {
     offset: ["start start", "end end"],
   });
 
-  // The 3D flip is desktop-only (perf/jank on touch).
-  const isDesktop = useIsDesktop();
-
   // Intro type: slides up and fades out.
   const introY = useTransform(scrollYProgress, [0, 0.35], ["0vh", "-60vh"]);
   const introOpacity = useTransform(scrollYProgress, [0.05, 0.32], [1, 0]);
-
-  // Decorative shapes + corner utilities: parallax + fade out early.
+  // Decorative shapes + corners: parallax + fade out early.
   const decorOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
   const decorY = useTransform(scrollYProgress, [0, 0.35], ["0vh", "-16vh"]);
-
-  // Portrait: rises from a bottom anchor to center, scales up, flips.
+  // Portrait: rises from a bottom anchor to center, scales up, flips (desktop-only render).
   const portraitY = useTransform(scrollYProgress, [0.12, 0.7], ["30vh", "0vh"]);
   const portraitScale = useTransform(scrollYProgress, [0.12, 0.7], [0.52, 1]);
   const portraitRotate = useTransform(scrollYProgress, [0.18, 0.62], [180, 0]);
-
-  // Final greeting + bio: fade/slide in.
+  // Final greeting + bio: fade/slide in, hugging the portrait.
   const finalOpacity = useTransform(scrollYProgress, [0.62, 0.9], [0, 1]);
   const finalY = useTransform(scrollYProgress, [0.62, 0.9], [40, 0]);
 
   return (
     <section ref={containerRef} className="relative h-[220vh] bg-slate-50">
-      <div className="sticky top-0 flex h-dvh items-center justify-center overflow-hidden">
-        {/* Decorative layer: shapes + corner utilities */}
+      <div className="sticky top-0 flex h-dvh items-center justify-center gap-6 overflow-hidden px-6 lg:gap-10">
+        {/* Decorative layer */}
         <motion.div
           style={{ opacity: decorOpacity, y: decorY }}
           className="pointer-events-none absolute inset-0"
@@ -207,38 +223,41 @@ function HeroScroll() {
           <IntroHeading className="text-center" />
         </motion.div>
 
-        {/* Portrait — centered by the flex stage; motion offsets/scales/flips */}
-        <div style={{ perspective: 1200 }}>
+        {/* Greeting — hugs the left of the portrait */}
+        <motion.div
+          style={{ opacity: finalOpacity, y: finalY }}
+          className="w-[13rem] shrink-0 text-right lg:w-[16rem]"
+        >
+          <Greeting />
+        </motion.div>
+
+        {/* Portrait — center; motion offsets, scales, and flips it */}
+        <div style={{ perspective: 1200 }} className="shrink-0">
           <motion.div
             style={{
               y: portraitY,
               scale: portraitScale,
-              rotateY: isDesktop ? portraitRotate : 0,
+              rotateY: portraitRotate,
             }}
-            className="relative h-[300px] w-[232px] overflow-hidden rounded-2xl shadow-2xl ring-1 ring-black/5 md:h-[420px] md:w-[330px]"
+            className="relative h-[340px] w-[260px] overflow-hidden rounded-2xl shadow-2xl ring-1 ring-black/5 lg:h-[420px] lg:w-[330px]"
           >
             <Image
               src={PORTRAIT}
               alt={PORTRAIT_ALT}
               fill
               priority
-              sizes="(max-width: 768px) 232px, 330px"
+              sizes="(max-width: 1024px) 260px, 330px"
               className="object-cover"
             />
           </motion.div>
         </div>
 
-        {/* Final state: greeting + bio (stacked on mobile, flanking on desktop) */}
+        {/* Bio — hugs the right of the portrait */}
         <motion.div
           style={{ opacity: finalOpacity, y: finalY }}
-          className="pointer-events-none absolute inset-0"
+          className="w-[14rem] shrink-0 text-left lg:w-[17rem]"
         >
-          <div className="pointer-events-auto absolute left-1/2 top-[13%] w-[86%] max-w-xs -translate-x-1/2 text-center md:left-[7%] md:top-1/2 md:w-auto md:max-w-[15rem] md:-translate-x-0 md:-translate-y-1/2 md:text-left">
-            <Greeting />
-          </div>
-          <div className="pointer-events-auto absolute bottom-[9%] left-1/2 w-[88%] max-w-sm -translate-x-1/2 text-center md:bottom-auto md:left-auto md:right-[7%] md:top-1/2 md:w-auto md:max-w-xs md:-translate-y-1/2 md:text-left">
-            <Bio />
-          </div>
+          <Bio />
         </motion.div>
       </div>
     </section>
@@ -246,13 +265,16 @@ function HeroScroll() {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Entry: SSR/reduced-motion render the static hero; enhance after mount.     */
+/* Entry: SSR + reduced-motion => static stack; mobile => animated stack;     */
+/* desktop => scroll scene. Mobile is fully severed from useScroll.           */
 /* -------------------------------------------------------------------------- */
 
 export default function Hero() {
   const reduce = useReducedMotion();
   const hydrated = useHydrated();
+  const isDesktop = useIsDesktop();
 
-  if (!hydrated || reduce) return <HeroStatic />;
+  if (!hydrated || reduce) return <HeroStacked animate={false} />;
+  if (!isDesktop) return <HeroStacked animate />;
   return <HeroScroll />;
 }
