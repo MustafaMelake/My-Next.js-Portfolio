@@ -33,7 +33,7 @@ export default function Hero() {
             Next.js e-commerce that&apos;s fast, secure, and{" "}
             <span className="text-primary italic">correct to the cent.</span>
           </h1>
-          <p className="text-lg text-muted-foreground max-w-lg mb-4 leading-relaxed">
+          <p className="text-lg text-slate-600 max-w-lg mb-4 leading-relaxed">
             I build fast, server-rendered online stores where{" "}
             <strong className="font-semibold text-foreground">
               the money is always right

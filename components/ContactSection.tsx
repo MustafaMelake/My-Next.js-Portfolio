@@ -83,11 +83,15 @@ export default function ContactSection() {
               </div>
 
               <p className="text-xl text-slate-600 max-w-md leading-relaxed">
-                Whether you need a{" "}
-                <strong className="font-semibold">Next.js Architect</strong> for
-                a new MVP or a{" "}
-                <strong className="font-semibold">Prisma/MongoDB</strong> expert
-                to scale your backend, I&apos;m here to help.
+                Whether you&apos;re launching a new{" "}
+                <strong className="font-semibold text-foreground">
+                  e-commerce store
+                </strong>{" "}
+                or hardening an existing one so the{" "}
+                <strong className="font-semibold text-foreground">
+                  money is always right
+                </strong>
+                , I&apos;m here to help.
               </p>
 
               <div className="space-y-6 pt-4">
