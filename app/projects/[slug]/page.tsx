@@ -131,36 +131,7 @@ export default async function ProjectPage({ params }: Params) {
           </div>
         </FadeIn>
 
-        {/* Business-first narrative — served before the technical depth */}
-        <FadeIn direction="up">
-          <div className="mb-24 space-y-16 md:mb-28 md:space-y-24">
-            {project.businessProblem ? (
-              <section
-                aria-labelledby="problem-heading"
-                className="mx-auto max-w-3xl"
-              >
-                <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-primary">
-                  {project.demo ? "The concept" : "The business problem"}
-                </p>
-                <h2
-                  id="problem-heading"
-                  className="mb-5 text-3xl font-bold tracking-tight md:text-4xl"
-                >
-                  {project.demo ? "What it demonstrates" : "What was at stake"}
-                </h2>
-                <p className="text-lg leading-relaxed text-slate-700">
-                  {project.businessProblem}
-                </p>
-              </section>
-            ) : null}
-
-            <MetricsStrip metrics={project.metrics} demo={project.demo} />
-            <WhatThisProtects items={project.protects} demo={project.demo} />
-            <Testimonial data={project.testimonial} />
-          </div>
-        </FadeIn>
-
-        {/* Body — technical depth, for the evaluator */}
+        {/* Body — sticky meta sidebar + one editorial reading stream */}
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-[300px_1fr] lg:gap-16">
           {/* Sidebar */}
           <aside className="h-fit space-y-8 lg:sticky lg:top-28">
@@ -198,46 +169,79 @@ export default async function ProjectPage({ params }: Params) {
             </div>
           </aside>
 
-          {/* Content */}
+          {/* Content — single vertical stream: business first, then depth */}
           <FadeIn direction="up" delay={0.1}>
-            <div className="max-w-2xl">
-              <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-primary">
-                Under the hood
-              </p>
-              <p className="mb-12 text-lg leading-relaxed text-slate-700">
-                {project.overview}
-              </p>
-
-              {project.sections.map((section) => (
-                <div key={section.heading} className="mb-10">
-                  <h2 className="mb-3 text-2xl font-bold tracking-tight">
-                    {section.heading}
+            <div className="max-w-2xl space-y-12">
+              {/* The business problem */}
+              {project.businessProblem ? (
+                <section aria-labelledby="problem-heading">
+                  <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-primary">
+                    {project.demo ? "The concept" : "The business problem"}
+                  </p>
+                  <h2
+                    id="problem-heading"
+                    className="mb-3 text-2xl font-bold tracking-tight text-slate-900"
+                  >
+                    {project.demo ? "What it demonstrates" : "What was at stake"}
                   </h2>
                   <p className="leading-relaxed text-slate-600">
-                    {section.body}
+                    {project.businessProblem}
                   </p>
-                </div>
-              ))}
+                </section>
+              ) : null}
 
-              {/* Tech stack */}
-              <h2 className="mb-4 text-2xl font-bold tracking-tight">
-                Built With
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {project.tech.map((t) => (
-                  <span
-                    key={t}
-                    className={cn(
-                      "rounded-full border px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider",
-                      FRONTEND_STACK.has(t)
-                        ? "border-primary/20 bg-primary/10 text-primary shadow-sm shadow-primary/10"
-                        : "border-slate-200 bg-slate-50 text-slate-500"
-                    )}
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
+              {/* Outcomes (renders only when a metric value is filled) */}
+              <MetricsStrip metrics={project.metrics} demo={project.demo} />
+
+              {/* What this protects (editorial text blocks) */}
+              <WhatThisProtects items={project.protects} demo={project.demo} />
+
+              {/* Under the hood */}
+              <section>
+                <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-primary">
+                  Under the hood
+                </p>
+                <p className="mb-8 leading-relaxed text-slate-600">
+                  {project.overview}
+                </p>
+                <div className="space-y-8">
+                  {project.sections.map((section) => (
+                    <div key={section.heading}>
+                      <h2 className="mb-3 text-2xl font-bold tracking-tight text-slate-900">
+                        {section.heading}
+                      </h2>
+                      <p className="leading-relaxed text-slate-600">
+                        {section.body}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* Built With */}
+              <section>
+                <h2 className="mb-4 text-2xl font-bold tracking-tight text-slate-900">
+                  Built With
+                </h2>
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.map((t) => (
+                    <span
+                      key={t}
+                      className={cn(
+                        "rounded-full border px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider",
+                        FRONTEND_STACK.has(t)
+                          ? "border-primary/20 bg-primary/10 text-primary shadow-sm shadow-primary/10"
+                          : "border-slate-200 bg-slate-50 text-slate-500"
+                      )}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </section>
+
+              {/* Testimonial (renders only when present) */}
+              <Testimonial data={project.testimonial} />
             </div>
           </FadeIn>
         </div>

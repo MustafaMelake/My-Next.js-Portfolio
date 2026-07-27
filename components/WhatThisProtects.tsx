@@ -1,10 +1,10 @@
-import { ShieldCheck } from "lucide-react";
-import { GOLD } from "@/lib/site";
 import type { ProtectItem } from "@/lib/projects";
 
 /**
- * A 3-column grid of business guarantees written in outcome language (what the
- * owner gets), translated from the project's engineering highlights. Renders
+ * Business guarantees written in outcome language (what the owner gets),
+ * translated from the project's engineering highlights. Rendered as clean,
+ * borderless editorial text blocks — a bold subheading plus a plain-language
+ * description — to sit in the project's single vertical reading stream. Renders
  * nothing when a project has no `protects` entries.
  */
 export function WhatThisProtects({
@@ -23,42 +23,26 @@ export function WhatThisProtects({
     : "Business guarantees, in plain terms";
 
   return (
-    <section aria-labelledby="protects-heading" className="mx-auto max-w-6xl">
+    <section aria-labelledby="protects-heading">
       <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-primary">
         {eyebrow}
       </p>
       <h2
         id="protects-heading"
-        className="mb-10 max-w-2xl text-3xl font-bold tracking-tight md:text-4xl"
+        className="mb-6 text-2xl font-bold tracking-tight text-slate-900"
       >
         {heading}
       </h2>
-      <ul className="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <div className="space-y-6">
         {items.map((item) => (
-          <li
-            key={item.title}
-            className="relative overflow-hidden rounded-2xl border border-slate-200/70 bg-white/60 p-8 shadow-sm backdrop-blur-sm"
-          >
-            <span
-              aria-hidden
-              className="absolute inset-x-8 top-0 h-px opacity-60"
-              style={{
-                background: `linear-gradient(to right, transparent, ${GOLD}, transparent)`,
-              }}
-            />
-            <ShieldCheck
-              aria-hidden
-              className="mb-5 h-7 w-7"
-              strokeWidth={1.5}
-              style={{ color: GOLD }}
-            />
-            <h3 className="mb-3 text-lg font-semibold tracking-tight">
+          <div key={item.title}>
+            <h3 className="text-lg font-bold tracking-tight text-slate-900">
               {item.title}
             </h3>
-            <p className="text-sm leading-relaxed text-slate-600">{item.body}</p>
-          </li>
+            <p className="mt-1.5 leading-relaxed text-slate-600">{item.body}</p>
+          </div>
         ))}
-      </ul>
+      </div>
     </section>
   );
 }
