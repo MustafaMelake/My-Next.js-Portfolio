@@ -67,7 +67,7 @@ export default function ProjectsSection() {
               size="lg"
               className="rounded-full px-10 py-7 text-lg shadow-2xl gap-2"
             >
-              <a href="/MUSTAFA_MELAKE_VC.pdf" download>
+    <a href="/MUSTAFA_MELAKE_CV.pdf" download>
                 <Download size={20} />
                 Download My CV
               </a>
